@@ -16,5 +16,8 @@ namespace DataLayer
             this.lenght = lenght;
         }
 
+        public int Width { get { return width; } }
+        public int Lenght { get { return lenght; } }
+
     }
 }

@@ -8,12 +8,12 @@ namespace DataLayer
 {
     public abstract class DataAbstractAPI
     {
-        public static DataAbstractAPI CreateDataAPI()
+        public static DataAbstractAPI createDataAPI()
         {
             return new DataLayer();
         }
     }
-    public class DataLayer() : DataAbstractAPI{ 
+    public class DataLayer : DataAbstractAPI{ 
 
     }
 }
