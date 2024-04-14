@@ -8,15 +8,16 @@ namespace LogicLayer
     {
         public abstract void createBalls(int amount);
         public abstract void updateBalls();
-
-        public abstract void moveBall();
         public abstract List<PoolBall> ballsList { get; }
         public abstract Board board { get; }
+        public abstract System.Timers.Timer timer { get; }
 
-        public abstract Board createBoard(int width, int lenght);
+        public abstract void startSimulation();
 
-        public LogicAbstractAPI createLogicAPI() {
-            return new LogicAPI(width, lenght, /*Timer*/);
+        public abstract void stopSimulation();
+
+        public static LogicAbstractAPI createLogicAPI() {
+            return new LogicLayer();
         }
 
 
@@ -29,11 +30,13 @@ namespace LogicLayer
 
         private DataAbstractAPI dataLayer;
 
-        public LogicAPI(int width, int lenght /*, Timer timer*/) {
+        public override System.Timers.Timer timer { get; }
+
+        public LogicLayer() {
             dataLayer = DataAbstractAPI.createDataAPI();
             ballsList = new List<PoolBall>();
-            board = createBoard(width, lenght);
-            /* timer */
+            board = new Board();
+            timer = new System.Timers.Timer(100);
         }
         
         public override void createBalls(int amount)
@@ -42,15 +45,27 @@ namespace LogicLayer
             int x = 0;
             int y = 0;
             for (int i = 0; i < amount; i++) {
-                x = rnd.Next(5, board.Width - 25);
-                x = rnd.Next(5, board.Lenght - 25);
+                x = rnd.Next(5, board.Width - 100);
+                y = rnd.Next(5, board.Lenght - 100);
                 ballsList.Add(new PoolBall(x, y));
+
             }
         }
 
-        public override void moveBall(PoolBall ball)
+        public override void updateBalls()
         {
-            if (ball.X )
+            foreach (PoolBall pball in ballsList) {
+                pball.move(500);
+            }
+        }
+
+        public override void startSimulation() {
+            timer.Start();
+        }
+
+        public override void stopSimulation()
+        {
+            timer.Stop();
         }
 
     }

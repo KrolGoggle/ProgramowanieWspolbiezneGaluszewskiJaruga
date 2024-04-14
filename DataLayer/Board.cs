@@ -8,12 +8,10 @@ namespace DataLayer
 {
     public class Board
     {
-        private int width;
-        private int lenght;
+        public static int width = 1000;
+        public static int lenght = 750;
 
-        public Board(int width, int lenght) {
-            this.width = width;
-            this.lenght = lenght;
+        public Board() {
         }
 
         public int Width { get { return width; } }

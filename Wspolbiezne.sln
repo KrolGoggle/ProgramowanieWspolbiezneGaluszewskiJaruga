@@ -10,6 +10,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModelLayer", "ModelLayer\ModelLayer.csproj", "{AE066B35-B6D0-4DB5-8E42-F6E2CD5A42C2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ViewModelLayer", "ViewModelLayer\ViewModelLayer.csproj", "{0AEC451C-888D-4288-B0CB-2002A390B9DE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AE066B35-B6D0-4DB5-8E42-F6E2CD5A42C2} = {AE066B35-B6D0-4DB5-8E42-F6E2CD5A42C2}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ViewLayer", "ViewLayer\ViewLayer.csproj", "{DE53477D-C5FE-4AEF-9A9E-317C1A11043A}"
 EndProject
