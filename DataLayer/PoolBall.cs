@@ -9,8 +9,8 @@ namespace DataLayer
     {
         private Vector2 position;
         private Vector2 velocity;
-        static int r = 1;
-        static double density = 7.874;
+        static int r = 3;
+        static double mass = 1;
 
         public PoolBall(int x, int y) {
             position.X = x;
@@ -18,7 +18,9 @@ namespace DataLayer
             randomVelocity();
         }
 
-        public float X { get { return position.X; }
+        public float X { 
+            
+            get { return position.X; }
             set { position.X = value; }
         }
         public float Y { get { return position.Y; }

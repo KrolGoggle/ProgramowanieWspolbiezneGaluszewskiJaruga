@@ -12,10 +12,14 @@ namespace DataLayer
         {
             return new DataLayer();
         }
+
+        public abstract int BoardWidth();
+        public abstract int BoardLength();
+
+
     }
-    public class DataLayer : DataAbstractAPI{ 
 
 
 
-    }
+   
 }

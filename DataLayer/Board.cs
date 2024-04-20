@@ -14,8 +14,8 @@ namespace DataLayer
         public Board() {
         }
 
-        public int Width { get { return width; } }
-        public int Lenght { get { return lenght; } }
+        public int BoardWidth { get { return width; } }
+        public int BoardLenght { get { return lenght; } }
 
     }
 }

@@ -8,7 +8,7 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Button Content="ADD" HorizontalAlignment="Left" Height="68" Margin="47,341,0,0" VerticalAlignment="Top" Width="155" Command="{Binding addBalls}"/>
-        <TextBox HorizontalAlignment="Left" Height="68" Margin="224,341,0,0" VerticalAlignment="Top" Width="156" Text="{Binding ballAmount}"/>
+        <TextBox HorizontalAlignment="Left"  Height="68" Margin="224,341,0,0" VerticalAlignment="Top" Width="156" FontSize="30"  TextAlignment="Center" Text="{Binding ballAmount}"/>
         <Button Content="START" HorizontalAlignment="Left" Height="68" Margin="409,341,0,0" VerticalAlignment="Top" Width="155" Command="{Binding start}"/>
         <Button Content="STOP" HorizontalAlignment="Left" Height="68" Margin="602,341,0,0" VerticalAlignment="Top" Width="155" Command="{Binding stop}"/>
 
