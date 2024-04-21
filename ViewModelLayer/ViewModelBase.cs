@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
+
 namespace ViewModelLayer
 {
     public class ViewModelBase : INotifyPropertyChanged 
@@ -23,11 +24,10 @@ namespace ViewModelLayer
             modelAPI = ModelAbstractAPI.createModelAPI();
              // CommandStart = new RelayCommand();
             //  CommandStop = new RelayCommand();
-            //  CommandAdd = new RelayCommand();
+             // CommandAdd = new RelayCommand();    
         }
 
-
-
+    
 
         private void startSimulation(object parameter) {
             
@@ -43,8 +43,9 @@ namespace ViewModelLayer
             ; }
 
         private void Add(object parameter) {
-            
-            
+
+            modelAPI.createPoolBalls(ballsToAdd);
+            modelAPI.createVisibleBalls();
             
             
             ; }

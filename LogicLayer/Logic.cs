@@ -110,6 +110,13 @@ namespace LogicLayer
            return 3 ;
         }
 
+        public override int getBoardWidth()
+        {
+            return board.BoardWidth;
+        }
 
+        public override int getBoardLength()
+        {
+            return board.BoardLenght;        }
     }
 }

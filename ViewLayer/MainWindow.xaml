@@ -39,7 +39,7 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-  <!---<Rectangle Width="{Binding width}" Height="{Binding height}" Margin="160,35,160,149" StrokeThickness="2" Stroke="DimGray"/> !-->
+        <Rectangle Width="{Binding width}" Height="{Binding height}" Margin="160,35,160,149" StrokeThickness="2" Fill="Azure" Stroke="DimGray"/>
 
 
     </Grid>

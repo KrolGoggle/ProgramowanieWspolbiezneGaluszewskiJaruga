@@ -17,7 +17,10 @@ namespace LogicLayer
         public abstract List<Vector2> getVelocity();
 
         public abstract int getRadius();
-        
+
+        public abstract int getBoardWidth();
+        public abstract int getBoardLength();
+
 
         public abstract void startSimulation(int amount);
 
