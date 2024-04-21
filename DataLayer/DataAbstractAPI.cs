@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 namespace DataLayer
 {
     public abstract class DataAbstractAPI
+
     {
+
+
         public static DataAbstractAPI createDataAPI()
         {
             return new DataLayer();
@@ -16,10 +19,6 @@ namespace DataLayer
         public abstract int BoardWidth();
         public abstract int BoardLength();
 
-
     }
 
-
-
-   
 }

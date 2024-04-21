@@ -12,14 +12,13 @@
         <vm:ViewModelBase/>
     </Window.DataContext>
     <Grid>
-        <Button Content="ADD" HorizontalAlignment="Left" Height="68" Margin="47,341,0,0" VerticalAlignment="Top" Width="155" Command="{Binding CommandAdd}"/>
-        <TextBox Text="{Binding BallsToAdd}" HorizontalAlignment="Left"  Height="68" Margin="224,341,0,0" VerticalAlignment="Top" Width="156" FontSize="30" TextAlignment="Center"/>
-        <Button Command="{Binding CommandStart}" Content="START" HorizontalAlignment="Left" Height="68" Margin="409,341,0,0" VerticalAlignment="Top" Width="155"/>
-        <Button Command="{Binding CommandStop}"  Content="STOP" HorizontalAlignment="Left" Height="68" Margin="602,341,0,0" VerticalAlignment="Top" Width="155"/>
+        <Button Content="ADD" HorizontalAlignment="Left"  Margin="160,290,0,0" VerticalAlignment="Top" Width="155" Height="68" Command="{Binding CommandAdd}"/>
+        <TextBox Text="{Binding BallsToAdd}" HorizontalAlignment="Center"   Margin="0,290,0,0" VerticalAlignment="Top" Width="155" Height="68" FontSize="30" TextAlignment="Center"/>
+        <Button Command="{Binding CommandStop}"  Content="CLEAR" HorizontalAlignment="Left" Height="68" Margin="485,290,0,0" VerticalAlignment="Top" Width="155"/>
 
-      
+        <Rectangle  Margin="160,35,160,149" Height="250" Width="480" StrokeThickness="2" Fill="Azure" Stroke="DimGray"/>
 
-        <ItemsControl ItemsSource="{Binding PoolBalls}" Margin="160,35,160,149">
+        <ItemsControl ItemsSource="{Binding PoolBalls}" Margin="160,35,160,149" Height="250" Width="480">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas Background="AliceBlue" />
@@ -34,12 +33,10 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Ellipse Width="{Binding Radius}" Height="{Binding Radius}"
-                             Fill="#123"/>
+                             Fill="#512"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-
-        <Rectangle Width="{Binding width}" Height="{Binding height}" Margin="160,35,160,149" StrokeThickness="2" Fill="Azure" Stroke="DimGray"/>
 
 
     </Grid>

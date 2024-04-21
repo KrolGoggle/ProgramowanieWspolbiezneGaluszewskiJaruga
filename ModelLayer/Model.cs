@@ -16,46 +16,78 @@ namespace ModelLayer
 
         private ObservableCollection<IModelPoolBall> visiblePoolBals = new ObservableCollection<IModelPoolBall>();
 
-    
+        private int createdVisibleBalls = 0;
+
         public override event EventHandler ModelEvent;
+
+        private int current_balls;
+        private Random random = new Random();
+
 
         public ModelLayer()
         {
-            logicLayer = LogicAbstractAPI.createLogicAPI();
-           
+            logicLayer = LogicAbstractAPI.createLogicAPI(random);
+            logicLayer.LogicEvent += moveVisibleBalls;
+
         }
-
-
 
         public override void createPoolBalls(int amount)
         {
-            logicLayer.createBalls(amount);
+            if (amount >= 0)
+            { 
+            
+             this.current_balls += amount;
+
+
+             logicLayer.createBalls(amount); 
+            }
         }
 
-        public override void startSimulation(int a)
+        public override void destroyEveryPoolBall()
         {
-            logicLayer.startSimulation(a);
+            this.current_balls = 0;
+            logicLayer.deleteBalls();
+            createdVisibleBalls = 0;
         }
 
-        public override void stopSimulation(int a)
-        {
-            logicLayer.stopSimulation(a);
-        }
+
+      
 
         public override ObservableCollection<IModelPoolBall> createVisibleBalls()
         {
+            visiblePoolBals.Clear();
             foreach (Vector2 position in logicLayer.getPosition())
             {
                 IModelPoolBall PoolBall = IModelPoolBall.createBall(position.X, position.Y, logicLayer.getRadius());
                 visiblePoolBals.Add(PoolBall);
             }
+            createdVisibleBalls = visiblePoolBals.Count();
             return visiblePoolBals;
         }
 
-        
 
 
+        public void moveVisibleBalls(object sender, EventArgs e)
+        {
 
+            int i = 0;
+
+            foreach (Vector2 ball in logicLayer.getPosition())
+            {
+                if (current_balls == visiblePoolBals.Count)
+                {
+                    visiblePoolBals[i].Pos_X = ball.X;
+                    visiblePoolBals[i].Pos_Y = ball.Y;
+                    i++;
+                }
+            }
+
+        }
+
+        public override int getCurrentVisibleBalls()
+        {
+            return createdVisibleBalls;
+        }
 
     }
 

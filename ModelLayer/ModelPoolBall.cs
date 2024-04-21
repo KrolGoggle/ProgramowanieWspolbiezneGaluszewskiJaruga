@@ -10,7 +10,6 @@ namespace ModelLayer
 {
     internal class ModelPoolBall :IModelPoolBall, INotifyPropertyChanged
     {
-
        
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -31,12 +30,10 @@ namespace ModelLayer
         }
        
 
-
         private void NotifyPropertyChanged([CallerMemberName] string? propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
 
         
     }

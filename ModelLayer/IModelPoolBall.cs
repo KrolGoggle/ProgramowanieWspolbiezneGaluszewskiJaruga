@@ -18,9 +18,5 @@ namespace ModelLayer
             return new ModelPoolBall(x, y, r);
         }
 
-
-
-
-
     }
 }

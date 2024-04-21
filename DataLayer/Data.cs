@@ -10,7 +10,7 @@ namespace DataLayer
     {
         public override int BoardLength()
         {
-            return Board.lenght;
+            return Board.height;
         }
 
         public override int BoardWidth()

@@ -14,12 +14,15 @@ namespace LogicLayer
         public override List<PoolBall> ballsList { get; }
         public override Board board { get; }
 
+        private readonly Random random;
+
         private DataAbstractAPI dataLayer;
 
         public override System.Timers.Timer timer { get; }
 
-        public LogicLayer()
+        public LogicLayer(Random random)
         {
+            this.random = random;
             dataLayer = DataAbstractAPI.createDataAPI();
             ballsList = new List<PoolBall>();
             board = new Board();
@@ -28,52 +31,39 @@ namespace LogicLayer
 
         public override void createBalls(int amount)
         {
-            Random rnd = new Random();
+            
             int x = 0;
             int y = 0;
             for (int i = 0; i < amount; i++)
             {
-                x = rnd.Next(5, board.BoardWidth - 100);
-                y = rnd.Next(5, board.BoardLenght - 100);
+                x = random.Next(5, board.BoardWidth - 10);
+                y = random.Next(5, board.BoardHeight - 10);
                 ballsList.Add(new PoolBall(x, y));
-
+                ballsList[i].PositionChange += HandlePositionChange;
             }
         }
 
-        public override void updateBalls()
+        public override void deleteBalls()
         {
-            foreach (PoolBall pball in ballsList)
-            {
-                pball.move(500);
-            }
-        }
-
-        public override void deleteBalls(int amount)
-        {
-            if(Math.Abs(amount) >= ballsList.Count)
-            {
+           
                 ballsList.Clear();
-            }
-            else
+           
+        }
+
+        public override event EventHandler LogicEvent;
+
+        private void HandlePositionChange(object sender, EventArgs e)
+        {
+            if (sender != null)
             {
-                for (int i = 0; i < amount; i++)
-                {
-                    ballsList.RemoveAt(ballsList.Count() - 1);
-                }
-                }
+                LogicEvent?.Invoke(sender, EventArgs.Empty);
+            }
         }
 
-        public override void startSimulation(int amount)
-        {
-            timer.Start();
-            createBalls(amount);
-        }
 
-        public override void stopSimulation(int amount)
-        {
-            timer.Stop();
-            deleteBalls(amount);
-        }
+       
+
+      
 
         public override List<Vector2> getPosition()
         {
@@ -83,7 +73,7 @@ namespace LogicLayer
             {
                 foreach (PoolBall ball in ballsList)
                 {
-                    positions.Add(new Vector2(ball.X, ball.Y));
+                    positions.Add(new Vector2(ball.Position_x, ball.Position_y));
                 }
             }
 
@@ -98,7 +88,7 @@ namespace LogicLayer
             {
                 foreach (PoolBall ball in ballsList)
                 {
-                    positions.Add(new Vector2(ball.VelocityX, ball.VelocityY));
+                    positions.Add(new Vector2(ball.Velocity_x, ball.Velocity_y));
                 }
             }
 
@@ -107,7 +97,7 @@ namespace LogicLayer
 
         public override int getRadius()
         {
-           return 3 ;
+           return 5 ;
         }
 
         public override int getBoardWidth()
@@ -117,6 +107,7 @@ namespace LogicLayer
 
         public override int getBoardLength()
         {
-            return board.BoardLenght;        }
+            return board.BoardHeight;
+        }
     }
 }

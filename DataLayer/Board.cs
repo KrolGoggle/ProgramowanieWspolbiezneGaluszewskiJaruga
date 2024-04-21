@@ -8,14 +8,14 @@ namespace DataLayer
 {
     public class Board
     {
-        public static int width = 1000;
-        public static int lenght = 750;
+        public static int width = 400;
+        public static int height = 250;
 
         public Board() {
         }
 
         public int BoardWidth { get { return width; } }
-        public int BoardLenght { get { return lenght; } }
+        public int BoardHeight { get { return height; } }
 
     }
 }

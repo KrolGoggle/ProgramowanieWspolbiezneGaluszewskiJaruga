@@ -1,6 +1,7 @@
 ﻿using ModelLayer;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
@@ -11,47 +12,51 @@ namespace ViewModelLayer
     {
 
         private ModelAbstractAPI modelAPI;
-        int ballsToAdd { get; set; }
+        private int ballsToAdd { get; set; }
+
+        private int currentBalls;
 
         public ICommand CommandStart { get; set; }
         public ICommand CommandStop { get; set; }
         public ICommand CommandAdd { get; set; }
+
+        private bool isRunning = true;
 
         public ObservableCollection<IModelPoolBall> PoolBalls => modelAPI.createVisibleBalls();
 
         public ViewModelBase()
         {
             modelAPI = ModelAbstractAPI.createModelAPI();
-             // CommandStart = new RelayCommand();
-            //  CommandStop = new RelayCommand();
-             // CommandAdd = new RelayCommand();    
+             
+              CommandStop = new RelayCommand(stopSimulation,isAbleToStop);
+              CommandAdd = new RelayCommand(Add);    
         }
 
-    
-
-        private void startSimulation(object parameter) {
-            
-            
-            
-            
-            ; }
-
+   
         private void stopSimulation(object parameter) {
             
+            modelAPI.destroyEveryPoolBall();
+            RaisePropertyChanged(nameof(PoolBalls));
+            IsRunning = true;           
             
-            
+          
+            ((RelayCommand)CommandStop).RaiseCanExecuteChanged();
             ; }
 
         private void Add(object parameter) {
-
+         
+            
             modelAPI.createPoolBalls(ballsToAdd);
             modelAPI.createVisibleBalls();
-            
-            
+            isRunning = false;
+            currentBalls = modelAPI.getCurrentVisibleBalls();
+            RaisePropertyChanged(nameof(PoolBalls));
+            if (currentBalls > 0) {((RelayCommand)CommandStop).RaiseCanExecuteChanged(); }
+
+
             ; }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
 
         public int BallsToAdd
         { 
@@ -61,32 +66,36 @@ namespace ViewModelLayer
                 if(ballsToAdd != value)
                 {
                     ballsToAdd = value;
-                    RaisePropertyChangerd(nameof(BallsToAdd));
+                   RaisePropertyChanged(nameof(BallsToAdd));
                 }
             }
 
         }
 
+        public bool IsRunning
+        {
+            get { return isRunning; }
+            set
+            {
+            
+                if (isRunning != value)
+                {
+                    isRunning = value;
+                    RaisePropertyChanged(nameof(IsRunning));
+                }
+            }
+        }
 
-        protected virtual void RaisePropertyChangerd( [CallerMemberName] string propertyName = null) 
+        private bool isAbleToStop(object parameter)
+        {
+            return !IsRunning;
+        }
+
+
+        protected virtual void RaisePropertyChanged( [CallerMemberName] string propertyName = null) 
         { 
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     }
 }
