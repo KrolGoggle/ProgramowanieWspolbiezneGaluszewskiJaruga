@@ -12,7 +12,8 @@ namespace LogicLayer
         public abstract void deleteBalls(int amount);
         public abstract List<PoolBall> ballsList { get; }
         public abstract Board board { get; }
-        public abstract System.Timers.Timer timer { get; }
+
+        public abstract event EventHandler LogicEvent;
         public abstract List<Vector2> getPosition();
         public abstract List<Vector2> getVelocity();
 
@@ -20,11 +21,6 @@ namespace LogicLayer
 
         public abstract int getBoardWidth();
         public abstract int getBoardLength();
-
-
-        public abstract void startSimulation(int amount);
-
-        public abstract void stopSimulation(int amount);
 
         public static LogicAbstractAPI createLogicAPI() {
             return new LogicLayer();

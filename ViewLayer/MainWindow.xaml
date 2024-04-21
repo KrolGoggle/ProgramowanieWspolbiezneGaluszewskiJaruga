@@ -12,8 +12,7 @@
         <vm:ViewModelBase/>
     </Window.DataContext>
     <Grid>
-        <Button Content="ADD" HorizontalAlignment="Left" Height="68" Margin="47,341,0,0" VerticalAlignment="Top" Width="155" Command="{Binding CommandAdd}"/>
-        <TextBox Text="{Binding BallsToAdd}" HorizontalAlignment="Left"  Height="68" Margin="224,341,0,0" VerticalAlignment="Top" Width="156" FontSize="30" TextAlignment="Center"/>
+        <TextBox Text="{Binding ballsToAdd}" IsEnabled="{Binding IsRunning}" HorizontalAlignment="Left"  Height="68" Margin="224,341,0,0" VerticalAlignment="Top" Width="156" FontSize="30" TextAlignment="Center"/>
         <Button Command="{Binding CommandStart}" Content="START" HorizontalAlignment="Left" Height="68" Margin="409,341,0,0" VerticalAlignment="Top" Width="155"/>
         <Button Command="{Binding CommandStop}"  Content="STOP" HorizontalAlignment="Left" Height="68" Margin="602,341,0,0" VerticalAlignment="Top" Width="155"/>
 
@@ -34,7 +33,7 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Ellipse Width="{Binding Radius}" Height="{Binding Radius}"
-                             Fill="#123"/>
+                             Fill="#000000"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

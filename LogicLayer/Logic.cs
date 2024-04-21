@@ -16,14 +16,11 @@ namespace LogicLayer
 
         private DataAbstractAPI dataLayer;
 
-        public override System.Timers.Timer timer { get; }
-
         public LogicLayer()
         {
             dataLayer = DataAbstractAPI.createDataAPI();
             ballsList = new List<PoolBall>();
             board = new Board();
-            timer = new System.Timers.Timer(100);
         }
 
         public override void createBalls(int amount)
@@ -36,7 +33,7 @@ namespace LogicLayer
                 x = rnd.Next(5, board.BoardWidth - 100);
                 y = rnd.Next(5, board.BoardLenght - 100);
                 ballsList.Add(new PoolBall(x, y));
-
+                //ballsList[i].move() += HandlePositionChange;
             }
         }
 
@@ -61,18 +58,6 @@ namespace LogicLayer
                     ballsList.RemoveAt(ballsList.Count() - 1);
                 }
                 }
-        }
-
-        public override void startSimulation(int amount)
-        {
-            timer.Start();
-            createBalls(amount);
-        }
-
-        public override void stopSimulation(int amount)
-        {
-            timer.Stop();
-            deleteBalls(amount);
         }
 
         public override List<Vector2> getPosition()
@@ -118,5 +103,15 @@ namespace LogicLayer
         public override int getBoardLength()
         {
             return board.BoardLenght;        }
+
+
+        public override event EventHandler LogicEvent;  
+        private void HandlePositionChange(object sender, EventArgs e)
+        {
+            if (sender != null)
+            {
+                LogicEvent?.Invoke(sender, EventArgs.Empty);
+            }
+        }
     }
 }

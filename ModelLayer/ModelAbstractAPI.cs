@@ -19,12 +19,11 @@ namespace ModelLayer
 
         public abstract event EventHandler ModelEvent;
 
-        public abstract void startSimulation(int a);
-        public abstract void stopSimulation(int a);
-
         public abstract ObservableCollection<IModelPoolBall> createVisibleBalls();
 
-        
+        public abstract void createBalls(int a);
+
+        public abstract void deleteBalls(int a);
 
     }
         

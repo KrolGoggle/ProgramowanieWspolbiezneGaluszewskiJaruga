@@ -6,28 +6,27 @@ namespace ViewModelLayer
     public class RelayCommand : ICommand
     {
 
-        private readonly Action m_Execute;
-        private readonly Func<bool> m_CanExecute;
-        public RelayCommand(Action execute) : this(execute, null) { }
+        private readonly Action<object> m_execute;
+        private readonly Func<object, bool> m_canExecute;
 
-        public RelayCommand(Action execute, Func<bool> canExecute)
+        public RelayCommand(Action<object> execute, Func<object, bool> canExecute = null)
         {
-            this.m_Execute = execute ?? throw new ArgumentNullException(nameof(execute));
-            this.m_CanExecute = canExecute;
+            this.m_execute = execute ?? throw new ArgumentNullException(nameof(execute));
+            this.m_canExecute = canExecute;
         }
 
         public bool CanExecute(object parameter)
         {
-            if (this.m_CanExecute == null)
-                return true;
-            if (parameter == null)
-                return this.m_CanExecute();
-            return this.m_CanExecute();
+            if (m_canExecute != null)
+            {
+                return m_canExecute(parameter);
+            }
+            else return false;
         }
 
         public virtual void Execute(object parameter)
         {
-            this.m_Execute();
+            m_execute(parameter);
         }
 
         public event EventHandler CanExecuteChanged;
