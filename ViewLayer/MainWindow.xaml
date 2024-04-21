@@ -12,15 +12,34 @@
         <vm:ViewModelBase/>
     </Window.DataContext>
     <Grid>
-        <Button Content="ADD" HorizontalAlignment="Left" Height="68" Margin="47,341,0,0" VerticalAlignment="Top" Width="155" Command="{Binding addBalls}"/>
-        <TextBox Text="{Binding  Path=BallsToAdd}" HorizontalAlignment="Left"  Height="68" Margin="224,341,0,0" VerticalAlignment="Top" Width="156" FontSize="30" TextAlignment="Center"/>
-        <Button Content="START" HorizontalAlignment="Left" Height="68" Margin="409,341,0,0" VerticalAlignment="Top" Width="155" Command="{Binding Start}"/>
-        <Button Content="STOP" HorizontalAlignment="Left" Height="68" Margin="602,341,0,0" VerticalAlignment="Top" Width="155" Command="{Binding Stop}"/>
+        <Button Content="ADD" HorizontalAlignment="Left" Height="68" Margin="47,341,0,0" VerticalAlignment="Top" Width="155" Command="{Binding CommandAdd}"/>
+        <TextBox Text="{Binding BallsToAdd}" HorizontalAlignment="Left"  Height="68" Margin="224,341,0,0" VerticalAlignment="Top" Width="156" FontSize="30" TextAlignment="Center"/>
+        <Button Command="{Binding CommandStart}" Content="START" HorizontalAlignment="Left" Height="68" Margin="409,341,0,0" VerticalAlignment="Top" Width="155"/>
+        <Button Command="{Binding CommandStop}"  Content="STOP" HorizontalAlignment="Left" Height="68" Margin="602,341,0,0" VerticalAlignment="Top" Width="155"/>
 
+      
 
-        <Rectangle Width="{Binding width}" Height="{Binding height}" Margin="160,35,160,149" StrokeThickness="2" Stroke="black"/>
+        <ItemsControl ItemsSource="{Binding PoolBalls}" Margin="160,35,160,149">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas Background="AliceBlue" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="Canvas.Left" Value="{Binding Pos_X}"/>
+                    <Setter Property="Canvas.Top" Value="{Binding Pos_Y}"/>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Ellipse Width="{Binding Radius}" Height="{Binding Radius}"
+                             Fill="#123"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
 
-
+  <!---<Rectangle Width="{Binding width}" Height="{Binding height}" Margin="160,35,160,149" StrokeThickness="2" Stroke="DimGray"/> !-->
 
 
     </Grid>

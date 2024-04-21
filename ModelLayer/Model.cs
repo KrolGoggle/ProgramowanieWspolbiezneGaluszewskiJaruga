@@ -16,6 +16,8 @@ namespace ModelLayer
 
         private ObservableCollection<IModelPoolBall> visiblePoolBals = new ObservableCollection<IModelPoolBall>();
 
+        public override event EventHandler ModelEvent;
+
         public ModelLayer()
         {
             logicLayer = LogicAbstractAPI.createLogicAPI();
