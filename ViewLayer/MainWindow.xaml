@@ -13,7 +13,10 @@
         <Button Content="STOP" HorizontalAlignment="Left" Height="68" Margin="602,341,0,0" VerticalAlignment="Top" Width="155" Command="{Binding stop}"/>
 
 
-        <Rectangle Width="{Binding width}" Height="{Binding height}" Fill="WhiteSmoke" Margin="160,35,160,149" StrokeThickness="2" Stroke="black"/>
+        <Rectangle Width="{Binding width}" Height="{Binding height}" Margin="160,35,160,149" StrokeThickness="2" Stroke="black"/>
 
+        
+        
+        
     </Grid>
 </Window>

@@ -55,9 +55,5 @@ namespace DataLayer
             velocity.Y = rnd.Next(-5, 5);
         }
 
-        private void RaisePropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }

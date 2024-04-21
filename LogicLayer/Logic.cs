@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -47,6 +48,21 @@ namespace LogicLayer
             }
         }
 
+        public override void deleteBalls(int amount)
+        {
+            if(Math.Abs(amount) >= ballsList.Count)
+            {
+                ballsList.Clear();
+            }
+            else
+            {
+                for (int i = 0; i < amount; i++)
+                {
+                    ballsList.RemoveAt(ballsList.Count() - 1);
+                }
+                }
+        }
+
         public override void startSimulation()
         {
             timer.Start();
@@ -56,6 +72,42 @@ namespace LogicLayer
         {
             timer.Stop();
         }
+
+        public override List<Vector2> getPosition()
+        {
+            List<Vector2> positions = new List<Vector2>();
+
+            if (ballsList != null)
+            {
+                foreach (PoolBall ball in ballsList)
+                {
+                    positions.Add(new Vector2(ball.X, ball.Y));
+                }
+            }
+
+            return positions;
+        }
+
+        public override List<Vector2> getVelocity()
+        {
+            List<Vector2> positions = new List<Vector2>();
+
+            if (ballsList != null)
+            {
+                foreach (PoolBall ball in ballsList)
+                {
+                    positions.Add(new Vector2(ball.VelocityX, ball.VelocityY));
+                }
+            }
+
+            return positions;
+        }
+
+        public override int getRadius()
+        {
+           return 3 ;
+        }
+
 
     }
 }

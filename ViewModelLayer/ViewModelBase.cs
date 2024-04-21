@@ -10,6 +10,7 @@ namespace ViewModelLayer
     {
 
         private ModelAbstractAPI modelAPI;
+        private int ballsToAdd;
 
         public ICommand CommandStart { get; set; }
         public ICommand CommandStop { get; set; }
@@ -33,6 +34,21 @@ namespace ViewModelLayer
         private void Add(object parameter) {; }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+
+        public int BallsToAdd
+        { 
+            get { return ballsToAdd; }
+            set
+            {
+                if(ballsToAdd != value)
+                {
+                    ballsToAdd = value;
+                    RaisePropertyChangerd(nameof(BallsToAdd));
+                }
+            }
+
+        }
 
 
         protected virtual void RaisePropertyChangerd( [CallerMemberName] string propertyName = null) 
