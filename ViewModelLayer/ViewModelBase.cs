@@ -18,7 +18,6 @@ namespace ViewModelLayer
 
         public ICommand CommandStart { get; set; }
         public ICommand CommandStop { get; set; }
-        public ICommand CommandAdd { get; set; }
 
         private bool isRunning = true;
 
@@ -70,6 +69,16 @@ namespace ViewModelLayer
                 }
             }
 
+        // Method to reset the simulation
+        private void stopSimulation(object parameter)
+        {
+            // Remove all balls from the model layer and update the view
+            modelAPI.deleteBalls(BallsToAdd);
+            RaisePropertyChanged(nameof(PoolBalls));
+            IsRunning = true;           // Set running flag to true
+            // Notify commands to re-evaluate if they can be executed
+            ((RelayCommand)CommandStart).RaiseCanExecuteChanged();
+            ((RelayCommand)CommandStop).RaiseCanExecuteChanged();
         }
 
         public bool IsRunning

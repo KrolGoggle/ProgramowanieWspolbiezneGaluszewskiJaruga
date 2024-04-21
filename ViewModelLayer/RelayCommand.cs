@@ -12,8 +12,8 @@ namespace ViewModelLayer
 
         public RelayCommand(Action<object> execute, Func<object, bool> canExecute)
         {
-            this.m_Execute = execute ?? throw new ArgumentNullException(nameof(execute));
-            this.m_CanExecute = canExecute;
+            this.m_execute = execute ?? throw new ArgumentNullException(nameof(execute));
+            this.m_canExecute = canExecute;
         }
 
         public bool CanExecute(object parameter)
