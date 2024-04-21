@@ -8,7 +8,6 @@ namespace LogicLayer
     public abstract class LogicAbstractAPI
     {
         public abstract void createBalls(int amount);
-        //public abstract void updateBalls();
         public abstract void deleteBalls();
         public abstract List<PoolBall> ballsList { get; }
         public abstract Board board { get; }
@@ -16,7 +15,8 @@ namespace LogicLayer
         public abstract event EventHandler LogicEvent;
         public abstract List<Vector2> getPosition();
         public abstract List<Vector2> getVelocity();
-        public abstract event EventHandler LogicEvent;
+
+        public abstract System.Timers.Timer timer { get; }
         public abstract int getRadius();
 
         public abstract int getBoardWidth();

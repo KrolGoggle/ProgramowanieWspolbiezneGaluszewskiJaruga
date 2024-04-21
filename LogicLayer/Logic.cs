@@ -26,6 +26,7 @@ namespace LogicLayer
             dataLayer = DataAbstractAPI.createDataAPI();
             ballsList = new List<PoolBall>();
             board = new Board();
+            timer = new System.Timers.Timer(100);
         }
 
         public override void createBalls(int amount)
@@ -59,10 +60,6 @@ namespace LogicLayer
             }
         }
 
-
-       
-
-      
 
         public override List<Vector2> getPosition()
         {

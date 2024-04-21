@@ -27,6 +27,5 @@ namespace LogicLayerTest
             Assert.IsNotNull(l);
 
         }
-
     }
 }

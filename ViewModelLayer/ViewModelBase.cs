@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace ViewModelLayer
 {
-    public class ViewModelBase : INotifyPropertyChanged 
+    public class ViewModelBase : INotifyPropertyChanged
     {
 
         private ModelAbstractAPI modelAPI;
@@ -18,6 +18,7 @@ namespace ViewModelLayer
 
         public ICommand CommandStart { get; set; }
         public ICommand CommandStop { get; set; }
+        public ICommand CommandAdd { get; set; }
 
         private bool isRunning = true;
 
@@ -26,59 +27,53 @@ namespace ViewModelLayer
         public ViewModelBase()
         {
             modelAPI = ModelAbstractAPI.createModelAPI();
-             
-              CommandStop = new RelayCommand(stopSimulation,isAbleToStop);
-              CommandAdd = new RelayCommand(Add);    
+
+            CommandStop = new RelayCommand(stopSimulation, isAbleToStop);
+            CommandAdd = new RelayCommand(Add);
         }
 
-   
-        private void stopSimulation(object parameter) {
-            
+
+        private void stopSimulation(object parameter)
+        {
+
             modelAPI.destroyEveryPoolBall();
             RaisePropertyChanged(nameof(PoolBalls));
-            IsRunning = true;           
-            
-          
-            ((RelayCommand)CommandStop).RaiseCanExecuteChanged();
-            ; }
+            IsRunning = true;
 
-        private void Add(object parameter) {
-         
-            
+
+            ((RelayCommand)CommandStop).RaiseCanExecuteChanged();
+            ;
+        }
+
+        private void Add(object parameter)
+        {
+
+
             modelAPI.createPoolBalls(ballsToAdd);
             modelAPI.createVisibleBalls();
             isRunning = false;
             currentBalls = modelAPI.getCurrentVisibleBalls();
             RaisePropertyChanged(nameof(PoolBalls));
-            if (currentBalls > 0) {((RelayCommand)CommandStop).RaiseCanExecuteChanged(); }
+            if (currentBalls > 0) { ((RelayCommand)CommandStop).RaiseCanExecuteChanged(); }
 
 
-            ; }
+            ;
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public int BallsToAdd
-        { 
+        {
             get { return ballsToAdd; }
             set
             {
-                if(ballsToAdd != value)
+                if (ballsToAdd != value)
                 {
                     ballsToAdd = value;
-                   RaisePropertyChanged(nameof(BallsToAdd));
+                    RaisePropertyChanged(nameof(BallsToAdd));
                 }
             }
 
-        // Method to reset the simulation
-        private void stopSimulation(object parameter)
-        {
-            // Remove all balls from the model layer and update the view
-            modelAPI.deleteBalls(BallsToAdd);
-            RaisePropertyChanged(nameof(PoolBalls));
-            IsRunning = true;           // Set running flag to true
-            // Notify commands to re-evaluate if they can be executed
-            ((RelayCommand)CommandStart).RaiseCanExecuteChanged();
-            ((RelayCommand)CommandStop).RaiseCanExecuteChanged();
         }
 
         public bool IsRunning
@@ -86,7 +81,7 @@ namespace ViewModelLayer
             get { return isRunning; }
             set
             {
-            
+
                 if (isRunning != value)
                 {
                     isRunning = value;
@@ -101,10 +96,10 @@ namespace ViewModelLayer
         }
 
 
-        protected virtual void RaisePropertyChanged( [CallerMemberName] string propertyName = null) 
-        { 
+        protected virtual void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-    
+
     }
 }
