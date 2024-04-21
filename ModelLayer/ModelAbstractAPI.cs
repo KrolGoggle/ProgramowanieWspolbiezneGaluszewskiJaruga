@@ -23,6 +23,6 @@ namespace ModelLayer
         public abstract ObservableCollection<IModelPoolBall> createVisibleBalls();
 
     }
-
+        
    
 }

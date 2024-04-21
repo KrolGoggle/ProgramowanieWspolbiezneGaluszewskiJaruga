@@ -1,8 +1,8 @@
 ﻿using ModelLayer;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
-using VierModelLayer;
 
 namespace ViewModelLayer
 {
@@ -10,16 +10,18 @@ namespace ViewModelLayer
     {
 
         private ModelAbstractAPI modelAPI;
-        private int ballsToAdd;
+        int ballsToAdd { get; set; }
 
         public ICommand CommandStart { get; set; }
         public ICommand CommandStop { get; set; }
         public ICommand CommandAdd { get; set; }
 
+        public ObservableCollection<IModelPoolBall> PoolBalls => modelAPI.createVisibleBalls();
+
         public ViewModelBase()
         {
             modelAPI = ModelAbstractAPI.createModelAPI();
-            //  CommandStart = new RelayCommand();
+             // CommandStart = new RelayCommand();
             //  CommandStop = new RelayCommand();
             //  CommandAdd = new RelayCommand();
         }
@@ -27,11 +29,25 @@ namespace ViewModelLayer
 
 
 
-        private void Start(object parameter) {; }
+        private void Start(object parameter) {
+            
+            
+            
+            
+            ; }
 
-        private void Stop(object parameter) {; }
+        private void Stop(object parameter) {
+            
+            
+            
+            ; }
 
-        private void Add(object parameter) {; }
+        private void Add(object parameter) {
+            
+            
+            
+            
+            ; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

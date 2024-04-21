@@ -46,7 +46,7 @@ namespace ModelLayer
             return visiblePoolBals;
         }
 
-
+        
 
 
 

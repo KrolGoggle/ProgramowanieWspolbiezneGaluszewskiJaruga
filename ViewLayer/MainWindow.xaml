@@ -4,19 +4,24 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ViewLayer"
+        xmlns:vm="clr-namespace:ViewModelLayer;assembly=ViewModelLayer"
         mc:Ignorable="d"
+        
         Title="MainWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:ViewModelBase/>
+    </Window.DataContext>
     <Grid>
         <Button Content="ADD" HorizontalAlignment="Left" Height="68" Margin="47,341,0,0" VerticalAlignment="Top" Width="155" Command="{Binding addBalls}"/>
-        <TextBox HorizontalAlignment="Left"  Height="68" Margin="224,341,0,0" VerticalAlignment="Top" Width="156" FontSize="30"  TextAlignment="Center" Text="{Binding ballAmount}"/>
-        <Button Content="START" HorizontalAlignment="Left" Height="68" Margin="409,341,0,0" VerticalAlignment="Top" Width="155" Command="{Binding start}"/>
-        <Button Content="STOP" HorizontalAlignment="Left" Height="68" Margin="602,341,0,0" VerticalAlignment="Top" Width="155" Command="{Binding stop}"/>
+        <TextBox Text="{Binding  Path=BallsToAdd}" HorizontalAlignment="Left"  Height="68" Margin="224,341,0,0" VerticalAlignment="Top" Width="156" FontSize="30" TextAlignment="Center"/>
+        <Button Content="START" HorizontalAlignment="Left" Height="68" Margin="409,341,0,0" VerticalAlignment="Top" Width="155" Command="{Binding Start}"/>
+        <Button Content="STOP" HorizontalAlignment="Left" Height="68" Margin="602,341,0,0" VerticalAlignment="Top" Width="155" Command="{Binding Stop}"/>
 
 
         <Rectangle Width="{Binding width}" Height="{Binding height}" Margin="160,35,160,149" StrokeThickness="2" Stroke="black"/>
 
-        
-        
-        
+
+
+
     </Grid>
 </Window>
