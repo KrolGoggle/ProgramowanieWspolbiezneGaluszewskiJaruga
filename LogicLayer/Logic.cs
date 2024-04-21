@@ -63,14 +63,16 @@ namespace LogicLayer
                 }
         }
 
-        public override void startSimulation()
+        public override void startSimulation(int amount)
         {
             timer.Start();
+            createBalls(amount);
         }
 
-        public override void stopSimulation()
+        public override void stopSimulation(int amount)
         {
             timer.Stop();
+            deleteBalls(amount);
         }
 
         public override List<Vector2> getPosition()

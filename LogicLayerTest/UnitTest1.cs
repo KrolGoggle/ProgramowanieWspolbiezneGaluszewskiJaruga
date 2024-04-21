@@ -1,14 +1,32 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Reflection;
+using LogicLayer;
+using Moq;
+using DataLayer;
+using System.Numerics;
 
 namespace LogicLayerTest
 {
     [TestClass]
-    public class UnitTest1
+    public class LogicAPITests
     {
-        [TestMethod]
-        public void TestMethod1()
+        private Mock<LogicAbstractAPI> mockLogicAPI;
+
+        [TestInitialize]
+        public void Setup()
         {
+            mockLogicAPI = new Mock<LogicAbstractAPI>();
         }
+
+        [TestMethod]
+        public void createApiTest()
+        {
+            LogicAbstractAPI l = mockLogicAPI.Object;
+
+            Assert.IsNotNull(l);
+
+        }
+
     }
 }

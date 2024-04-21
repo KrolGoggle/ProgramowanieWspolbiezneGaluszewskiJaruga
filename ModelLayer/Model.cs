@@ -26,14 +26,14 @@ namespace ModelLayer
             logicLayer.createBalls(amount);
         }
 
-        public override void startSimulation()
+        public override void startSimulation(int a)
         {
-            logicLayer.startSimulation();
+            logicLayer.startSimulation(a);
         }
 
-        public override void stopSimulation()
+        public override void stopSimulation(int a)
         {
-            logicLayer.stopSimulation();
+            logicLayer.stopSimulation(a);
         }
 
         public override ObservableCollection<IModelPoolBall> createVisibleBalls()

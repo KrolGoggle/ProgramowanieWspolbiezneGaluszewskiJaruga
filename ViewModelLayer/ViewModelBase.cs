@@ -29,14 +29,14 @@ namespace ViewModelLayer
 
 
 
-        private void Start(object parameter) {
+        private void startSimulation(object parameter) {
             
             
             
             
             ; }
 
-        private void Stop(object parameter) {
+        private void stopSimulation(object parameter) {
             
             
             

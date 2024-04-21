@@ -17,8 +17,8 @@ namespace ModelLayer
 
         public abstract void createPoolBalls(int a);
 
-        public abstract void startSimulation();
-        public abstract void stopSimulation();
+        public abstract void startSimulation(int a);
+        public abstract void stopSimulation(int a);
 
         public abstract ObservableCollection<IModelPoolBall> createVisibleBalls();
 

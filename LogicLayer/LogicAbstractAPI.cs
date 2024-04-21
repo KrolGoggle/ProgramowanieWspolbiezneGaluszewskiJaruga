@@ -19,9 +19,9 @@ namespace LogicLayer
         public abstract int getRadius();
         
 
-        public abstract void startSimulation();
+        public abstract void startSimulation(int amount);
 
-        public abstract void stopSimulation();
+        public abstract void stopSimulation(int amount);
 
         public static LogicAbstractAPI createLogicAPI() {
             return new LogicLayer();
