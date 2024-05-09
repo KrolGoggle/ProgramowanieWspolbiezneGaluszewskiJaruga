@@ -11,10 +11,9 @@ namespace DataLayer
     {
         private Vector2 position;
         private Vector2 velocity;
-        static int r = 3;
-        static double mass = 1;
+        private Thread? thread;
         private Task? task;
-        private Stopwatch sw = new Stopwatch();
+        private Stopwatch sw;
         private int period = 4;
 
 
@@ -27,19 +26,21 @@ namespace DataLayer
 
         }
 
-        public float Position_x { get => position.X; private set => position.X = value; }
-        public float Position_y { get => position.Y; private set => position.Y = value; }
-        public float Velocity_x { get => velocity.X; set => velocity.X = value; }
-        public float Velocity_y { get => velocity.Y; set => velocity.Y = value; }
+        public float Position_x { get { return position.X; } set { position.X = value; } }
+        public float Position_y { get { return position.Y; } set { position.Y = value; } }
+        public float Velocity_x { get { return velocity.X; } set { velocity.X = value; } }
+        public float Velocity_y { get { return velocity.Y; } set { velocity.Y = value; } }
 
 
-        public void move(int speed)
+
+
+        private void move()
         {
 
-            Position_x += speed * velocity.X;
-            Position_y += speed * velocity.Y;
+            Position_x +=   velocity.X;
+            Position_y +=   velocity.Y;
 
-            checkIfOnBoard();
+           
 
             OnPositionChange();
 
@@ -63,18 +64,29 @@ namespace DataLayer
 
         }
 
+        object moveLock = new object();
+
         private void createTask()
         {
-            task = Task.Run(async () =>
+           sw = new Stopwatch();
+
+            thread = new Thread(() =>
             {
                 int waiting = 0;           
 
                 while (true)
                 {
                     sw.Restart();    
-                    sw.Start();     
-                    move(1);
-          
+                    sw.Start();
+
+                    lock (moveLock)
+                    {
+
+                        move();
+
+                    }
+
+
                     sw.Stop();       
 
                      if (period - sw.ElapsedMilliseconds > 0)
@@ -86,9 +98,12 @@ namespace DataLayer
                         waiting = 0;
                      }
 
-                    await Task.Delay(waiting);
+                   Thread.Sleep(waiting);
                 }
             });
+
+            thread.Start();
+
         }
       
         public event EventHandler PositionChange;
@@ -98,32 +113,6 @@ namespace DataLayer
             PositionChange?.Invoke(this, EventArgs.Empty);
         }
 
-        private void checkIfOnBoard()
-        {
-            
-            if (position.X > Board.width+50)
-            {
-                position.X = Board.width+50; 
-                velocity.X *= -1;       
-            }
-            else if (position.X < 0)
-            {
-                position.X = 0; 
-                velocity.X *= -1;               
-            }
-
-            if (position.Y > Board.height-30)
-            {
-                position.Y = Board.height-30; 
-                velocity.Y *= -1;    
-            }
-            else if (position.Y < 0)
-            {
-                position.Y = 0; 
-                velocity.Y *= -1;          
-            }
-
-        }
     }
 
     
