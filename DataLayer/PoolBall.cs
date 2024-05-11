@@ -12,7 +12,6 @@ namespace DataLayer
         private Vector2 position;
         private Vector2 velocity;
         private Thread? thread;
-        private Task? task;
         private Stopwatch sw;
         private int period = 4;
 
@@ -30,9 +29,6 @@ namespace DataLayer
         public float Position_y { get { return position.Y; } set { position.Y = value; } }
         public float Velocity_x { get { return velocity.X; } set { velocity.X = value; } }
         public float Velocity_y { get { return velocity.Y; } set { velocity.Y = value; } }
-
-
-
 
         private void move()
         {
@@ -65,6 +61,7 @@ namespace DataLayer
         }
 
         object moveLock = new object();
+        private bool shouldStop = false;
 
         private void createTask()
         {
@@ -74,7 +71,7 @@ namespace DataLayer
             {
                 int waiting = 0;           
 
-                while (true)
+                while (!shouldStop)
                 {
                     sw.Restart();    
                     sw.Start();
@@ -105,7 +102,12 @@ namespace DataLayer
             thread.Start();
 
         }
-      
+
+        public void stopThread() {
+            shouldStop = true;
+            thread.Join();
+        }
+
         public event EventHandler PositionChange;
 
         internal void OnPositionChange()

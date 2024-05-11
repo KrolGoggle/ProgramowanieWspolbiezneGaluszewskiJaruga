@@ -19,6 +19,7 @@ namespace DataLayer
         public abstract int BoardWidth();
         public abstract int BoardLength();
 
+
     }
 
 }

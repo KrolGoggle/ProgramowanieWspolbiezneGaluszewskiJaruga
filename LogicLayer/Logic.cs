@@ -41,13 +41,17 @@ namespace LogicLayer
                 ballsList.Add(new PoolBall(x, y));
                 ballsList[i].PositionChange += HandlePositionChange;
             }
+
+            System.Diagnostics.Debug.WriteLine("Balls count [add]: " + ballsList.Count);
         }
 
         public override void deleteBalls()
         {
-           
+            System.Diagnostics.Debug.WriteLine("Balls count [before clear]: " + ballsList.Count);
+            for (int i = 0;i < ballsList.Count;i++) { ballsList[i].stopThread(); }
                 ballsList.Clear();
-           
+                System.Diagnostics.Debug.WriteLine("Balls count [after clear]: " + ballsList.Count);
+
         }
 
         public override event EventHandler LogicEvent;
@@ -57,26 +61,34 @@ namespace LogicLayer
 
         private void HandlePositionChange(Object sender, EventArgs e)
         {
-            lock (moveLock)
+            try
             {
-                if (sender != null)
+
+                lock (moveLock)
                 {
-                    PoolBall ball = (PoolBall)sender;
-
-
-                    checkIfOnBoard(ball);
-                    foreach (PoolBall other_ball in ballsList)
+                    if (sender != null)
                     {
-                        if (ball.Equals(other_ball)) continue;
+                        PoolBall ball = (PoolBall)sender;
 
-                        if (DetectCollision(ball, other_ball))
+
+                        checkIfOnBoard(ball);
+                        foreach (PoolBall other_ball in ballsList)
                         {
-                            CalculateCollision(ball, other_ball);
-                        }
-                    }
+                            if (ball.Equals(other_ball)) continue;
 
-                    LogicEvent?.Invoke(sender, EventArgs.Empty);
+                            if (DetectCollision(ball, other_ball))
+                            {
+                                CalculateCollision(ball, other_ball);
+                            }
+                        }
+
+                        LogicEvent?.Invoke(sender, EventArgs.Empty);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("exception");
             }
         }
 
