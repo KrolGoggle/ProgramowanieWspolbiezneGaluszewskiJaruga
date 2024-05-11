@@ -108,6 +108,8 @@ namespace DataLayer
             thread.Join();
         }
 
+
+
         public event EventHandler PositionChange;
 
         internal void OnPositionChange()
