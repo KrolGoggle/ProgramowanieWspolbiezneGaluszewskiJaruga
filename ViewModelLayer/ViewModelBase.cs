@@ -15,7 +15,7 @@ namespace ViewModelLayer
         private int ballsToAdd { get; set; }
 
         private int currentBalls;
-
+        private bool addEnabled { get; set; }
         public ICommand CommandStart { get; set; }
         public ICommand CommandStop { get; set; }
         public ICommand CommandAdd { get; set; }
@@ -30,12 +30,14 @@ namespace ViewModelLayer
 
             CommandStop = new RelayCommand(stopSimulation, isAbleToStop);
             CommandAdd = new RelayCommand(Add);
+
+            addEnabled = true;
         }
 
 
         private void stopSimulation(object parameter)
         {
-
+            IsAddEnabled = true;
             modelAPI.destroyEveryPoolBall();
             RaisePropertyChanged(nameof(PoolBalls));
             IsRunning = true;
@@ -47,15 +49,13 @@ namespace ViewModelLayer
 
         private void Add(object parameter)
         {
-
-
+            IsAddEnabled = false;
             modelAPI.createPoolBalls(ballsToAdd);
             modelAPI.createVisibleBalls();
             isRunning = false;
             currentBalls = modelAPI.getCurrentVisibleBalls();
             RaisePropertyChanged(nameof(PoolBalls));
             if (currentBalls > 0) { ((RelayCommand)CommandStop).RaiseCanExecuteChanged(); }
-
 
             ;
         }
@@ -86,6 +86,20 @@ namespace ViewModelLayer
                 {
                     isRunning = value;
                     RaisePropertyChanged(nameof(IsRunning));
+                }
+            }
+        }
+
+        public bool IsAddEnabled
+        {
+            get { return addEnabled; }
+            set
+            {
+
+                if (addEnabled != value)
+                {
+                    addEnabled = value;
+                    RaisePropertyChanged(nameof(IsAddEnabled));
                 }
             }
         }

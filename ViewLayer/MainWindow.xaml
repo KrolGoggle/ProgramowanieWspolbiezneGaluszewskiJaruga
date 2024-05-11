@@ -12,7 +12,7 @@
         <vm:ViewModelBase/>
     </Window.DataContext>
     <Grid>
-        <Button Content="ADD" HorizontalAlignment="Left"  Margin="160,290,0,0" VerticalAlignment="Top" Width="155" Height="68" Command="{Binding CommandAdd}"/>
+        <Button Content="ADD" HorizontalAlignment="Left"  Margin="160,290,0,0" VerticalAlignment="Top" Width="155" Height="68" Command="{Binding CommandAdd}" IsEnabled="{Binding Path=IsAddEnabled}"/>
         <TextBox Text="{Binding BallsToAdd}" HorizontalAlignment="Center"   Margin="0,290,0,0" VerticalAlignment="Top" Width="155" Height="68" FontSize="30" TextAlignment="Center"/>
         <Button Command="{Binding CommandStop}"  Content="CLEAR" HorizontalAlignment="Left" Height="68" Margin="485,290,0,0" VerticalAlignment="Top" Width="155"/>
 

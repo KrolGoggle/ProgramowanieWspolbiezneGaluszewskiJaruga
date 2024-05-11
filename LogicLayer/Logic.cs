@@ -42,15 +42,12 @@ namespace LogicLayer
                 ballsList[i].PositionChange += HandlePositionChange;
             }
 
-            System.Diagnostics.Debug.WriteLine("Balls count [add]: " + ballsList.Count);
         }
 
         public override void deleteBalls()
         {
-            System.Diagnostics.Debug.WriteLine("Balls count [before clear]: " + ballsList.Count);
             for (int i = 0;i < ballsList.Count;i++) { ballsList[i].stopThread(); }
                 ballsList.Clear();
-                System.Diagnostics.Debug.WriteLine("Balls count [after clear]: " + ballsList.Count);
 
         }
 
