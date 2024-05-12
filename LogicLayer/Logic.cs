@@ -61,27 +61,30 @@ namespace LogicLayer
             try
             {
 
-                lock (moveLock)
+
+                lock (moveLock) { 
+                if (sender != null)
                 {
-                    if (sender != null)
+                    PoolBall ball = (PoolBall)sender;
+
+
+                    checkIfOnBoard(ball);
+                    foreach (PoolBall other_ball in ballsList)
                     {
-                        PoolBall ball = (PoolBall)sender;
-
-
-                        checkIfOnBoard(ball);
-                        foreach (PoolBall other_ball in ballsList)
-                        {
-                            if (ball.Equals(other_ball)) continue;
+                        if (ball.Equals(other_ball)) continue;
+                        lock (moveLock)
 
                             if (DetectCollision(ball, other_ball))
                             {
                                 CalculateCollision(ball, other_ball);
                             }
-                        }
 
-                        LogicEvent?.Invoke(sender, EventArgs.Empty);
                     }
+
+                    LogicEvent?.Invoke(sender, EventArgs.Empty);
                 }
+            }
+                
             }
             catch (Exception ex)
             {
@@ -136,8 +139,8 @@ namespace LogicLayer
         {
             float speedx1, speedx2, speedy1, speedy2;
 
-            bool nearWall = ball.Position_x - 10 <= 0 || ball.Position_x + 10 >= 400 ||
-                                       ball.Position_y - 10 <= 0 || ball.Position_y + 10 >= 250;
+            bool nearWall = ball.Position_x - getRadius() <= 0 || ball.Position_x + getRadius() >= 400 ||
+                                       ball.Position_y - getRadius() <= 0 || ball.Position_y + getRadius() >= 250;
 
             if (!nearWall)
             {
@@ -195,7 +198,7 @@ namespace LogicLayer
 
         public override int getRadius()
         {
-           return 10 ;
+           return 12;
         }
 
         public override int getBoardWidth()
