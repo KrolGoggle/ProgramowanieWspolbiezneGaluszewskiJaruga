@@ -75,7 +75,6 @@ namespace LogicLayer
                             {
                                 CalculateCollision(ball, other_ball);
                             }
-                            else { checkIfOnBoard(ball);}
 
                     }
 
