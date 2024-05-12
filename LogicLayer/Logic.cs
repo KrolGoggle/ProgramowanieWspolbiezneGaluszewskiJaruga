@@ -134,12 +134,27 @@ namespace LogicLayer
         }
         private void CalculateCollision(PoolBall ball, PoolBall other_ball)
         {
-            ball.Velocity_x *= -1;
-            ball.Velocity_y *= -1;
+            float speedx1, speedx2, speedy1, speedy2;
 
-            other_ball.Velocity_x *= -1;
-            other_ball.Velocity_y *= -1;
-        }
+            bool nearWall = ball.Position_x - 10 <= 0 || ball.Position_x + 10 >= 400 ||
+                                       ball.Position_y - 10 <= 0 || ball.Position_y + 10 >= 250;
+
+            if (!nearWall)
+            {
+                speedx1 = (ball.Mass * ball.Velocity_x + other_ball.Mass * other_ball.Velocity_x - other_ball.Mass * (ball.Velocity_x - other_ball.Velocity_x)) / (ball.Mass + other_ball.Mass);
+                speedy1 = (ball.Mass * ball.Velocity_y + other_ball.Mass * other_ball.Velocity_y - other_ball.Mass * (ball.Velocity_y - other_ball.Velocity_y)) / (ball.Mass + other_ball.Mass);
+                speedx2 = (ball.Mass * ball.Velocity_x + other_ball.Mass * other_ball.Velocity_x - ball.Mass * (other_ball.Velocity_x - ball.Velocity_y)) / (ball.Mass + other_ball.Mass);
+                speedy2 = (ball.Mass * ball.Velocity_y + other_ball.Mass * other_ball.Velocity_y - other_ball.Mass * (other_ball.Velocity_y - ball.Velocity_y)) / (ball.Mass + other_ball.Mass);
+
+                ball.Velocity_x = speedx1;
+                ball.Velocity_y = speedy1;
+
+                other_ball.Velocity_x = speedx2;
+                other_ball.Velocity_y = speedy2;
+            }
+        
+
+         }
 
 
 
@@ -162,7 +177,7 @@ namespace LogicLayer
 
             if (poolBall.Position_y > getBoardLength() - 35)
             {
-                poolBall.Position_y = getBoardLength() - 35;  // zmienilem z Board.height na metode getLength
+                poolBall.Position_y = getBoardLength() - 35;
                 poolBall.Velocity_y *= -1;
             }
             else if (poolBall.Position_y < 0)

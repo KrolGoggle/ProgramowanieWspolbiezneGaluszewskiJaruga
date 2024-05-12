@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq.Expressions;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -14,7 +15,8 @@ namespace DataLayer
         private Thread? thread;
         private Stopwatch sw;
         private int period = 4;
-
+        public int mass = 3;
+        private object lockObject = new object();
 
         public PoolBall(int x, int y)
         {
@@ -25,11 +27,31 @@ namespace DataLayer
 
         }
 
-        public float Position_x { get { return position.X; } set { position.X = value; } }
-        public float Position_y { get { return position.Y; } set { position.Y = value; } }
-        public float Velocity_x { get { return velocity.X; } set { velocity.X = value; } }
-        public float Velocity_y { get { return velocity.Y; } set { velocity.Y = value; } }
+        public float Position_x
+        {
+            get { lock (lockObject) { return position.X; } }
+            set { lock (lockObject) { position.X = value; } }
+        }
 
+        public float Position_y
+        {
+            get { lock (lockObject) { return position.Y; } }
+            set { lock (lockObject) { position.Y = value; } }
+        }
+
+        public float Velocity_x
+        {
+            get { lock (lockObject) { return velocity.X; } }
+            set { lock (lockObject) { velocity.X = value; } }
+        }
+
+        public float Velocity_y   
+        {
+            get { lock (lockObject) { return velocity.Y; } }
+            set { lock (lockObject) { velocity.Y = value; } }
+        }
+
+        public int Mass { get { return mass; } set { mass = value; } }
         private void move()
         {
 
