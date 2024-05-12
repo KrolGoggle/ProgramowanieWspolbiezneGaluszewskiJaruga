@@ -49,6 +49,8 @@ namespace ViewModelLayer
 
         private void Add(object parameter)
         {
+
+            if (ballsToAdd > 0) { 
             IsAddEnabled = false;
             modelAPI.createPoolBalls(ballsToAdd);
             modelAPI.createVisibleBalls();
@@ -56,7 +58,7 @@ namespace ViewModelLayer
             currentBalls = modelAPI.getCurrentVisibleBalls();
             RaisePropertyChanged(nameof(PoolBalls));
             if (currentBalls > 0) { ((RelayCommand)CommandStop).RaiseCanExecuteChanged(); }
-
+            }
             ;
         }
 

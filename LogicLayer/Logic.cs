@@ -128,7 +128,7 @@ namespace LogicLayer
 
             double distance = Math.Sqrt(dx * dx + dy * dy);
 
-            if (distance < getRadius() * 2) return true;
+            if (distance < getRadius() * 1.5) return true;
             else return false;
 
         }
@@ -160,9 +160,9 @@ namespace LogicLayer
                 poolBall.Velocity_x *= -1;
             }
 
-            if (poolBall.Position_y > getBoardLength() - 30)
+            if (poolBall.Position_y > getBoardLength() - 35)
             {
-                poolBall.Position_y = getBoardLength() - 30;  // zmienilem z Board.height na metode getLength
+                poolBall.Position_y = getBoardLength() - 35;  // zmienilem z Board.height na metode getLength
                 poolBall.Velocity_y *= -1;
             }
             else if (poolBall.Position_y < 0)
