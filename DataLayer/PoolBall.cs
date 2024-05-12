@@ -23,7 +23,7 @@ namespace DataLayer
             position.X = x;
             position.Y = y;
             randomVelocity();
-            createTask();
+            createThread();
 
         }
 
@@ -67,17 +67,17 @@ namespace DataLayer
         public void randomVelocity()
         {
             Random rnd = new Random();
-            velocity.X = rnd.Next(-3, 4);
-            velocity.Y = rnd.Next(-3, 4);
+            velocity.X = rnd.Next(-1, 1);
+            velocity.Y = rnd.Next(-1, 1);
 
           
             while (velocity.X == 0)
             {
-                velocity.X = rnd.Next(-3, 4);
+                velocity.X = rnd.Next(-1, 1);
             }
             while (velocity.Y == 0)
             {
-                velocity.Y = rnd.Next(-3, 4);
+                velocity.Y = rnd.Next(-1, 1);
             }
 
         }
@@ -85,7 +85,7 @@ namespace DataLayer
         object moveLock = new object();
         private bool shouldStop = false;
 
-        private void createTask()
+        private void createThread()
         {
            sw = new Stopwatch();
 

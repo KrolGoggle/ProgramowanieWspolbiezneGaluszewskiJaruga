@@ -60,8 +60,6 @@ namespace LogicLayer
         {
             try
             {
-
-
                 lock (moveLock) { 
                 if (sender != null)
                 {
@@ -71,13 +69,13 @@ namespace LogicLayer
                     checkIfOnBoard(ball);
                     foreach (PoolBall other_ball in ballsList)
                     {
-                        if (ball.Equals(other_ball)) continue;
-                        lock (moveLock)
+                            if (ball.Equals(other_ball)) continue;
 
                             if (DetectCollision(ball, other_ball))
                             {
                                 CalculateCollision(ball, other_ball);
                             }
+                            else { checkIfOnBoard(ball);}
 
                     }
 
@@ -131,7 +129,7 @@ namespace LogicLayer
 
             double distance = Math.Sqrt(dx * dx + dy * dy);
 
-            if (distance < getRadius() * 1.5) return true;
+            if (distance < getRadius()) return true;
             else return false;
 
         }
@@ -166,11 +164,10 @@ namespace LogicLayer
 
         private void checkIfOnBoard(PoolBall poolBall)
         {
-
-            if (   poolBall.Position_x  > getBoardWidth() + 50)
+            if (poolBall.Position_x > getBoardWidth() + 50)
             {
-              poolBall.Position_x = Board.width + 50;
-              poolBall.Velocity_x *= -1;
+                poolBall.Position_x = Board.width + 50;
+                poolBall.Velocity_x *= -1;
             }
             else if (poolBall.Position_x < 0)
             {
