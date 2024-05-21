@@ -16,8 +16,8 @@ namespace DataLayerTest
         {
             mockDataAPI = new Mock<DataAbstractAPI>();
 
-            mockDataAPI.Setup(m => m.BoardWidth()).Returns(1000);
-            mockDataAPI.Setup(m => m.BoardLength()).Returns(750);
+            mockDataAPI.Setup(m => m.GetBoardWidth()).Returns(1000);
+            mockDataAPI.Setup(m => m.GetBoardLength()).Returns(750);
         }
 
         [TestMethod]
@@ -35,8 +35,8 @@ namespace DataLayerTest
 
             DataAbstractAPI d = mockDataAPI.Object;
 
-            Assert.AreEqual(1000, d.BoardWidth());
-            Assert.AreEqual(750, d.BoardLength());
+            Assert.AreEqual(1000, d.GetBoardWidth());
+            Assert.AreEqual(750, d.GetBoardLength());
 
         }
 

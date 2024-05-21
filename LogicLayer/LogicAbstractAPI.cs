@@ -18,7 +18,6 @@ namespace LogicLayer
 
         public abstract System.Timers.Timer timer { get; }
         public abstract int getRadius();
-
         public abstract int getBoardWidth();
         public abstract int getBoardLength();
 

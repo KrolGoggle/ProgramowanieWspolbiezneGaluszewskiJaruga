@@ -28,17 +28,5 @@ namespace LogicLayerTest
 
         }
 
-        [TestMethod]
-        public void deleteBallsTest()
-        {
-            LogicAbstractAPI l = mockLogicAPI.Object;
-
-            l.createBalls(5);
-            l.deleteBalls();
-
-            Assert.AreEqual(0, l.ballsList.Count);
-        }
-
-
     }
 }

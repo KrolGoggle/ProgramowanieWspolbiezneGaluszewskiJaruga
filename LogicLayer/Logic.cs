@@ -46,7 +46,7 @@ namespace LogicLayer
 
         public override void deleteBalls()
         {
-            for (int i = 0;i < ballsList.Count;i++) { ballsList[i].stopThread(); }
+            for (int i = 0;i < ballsList.Count;i++) { ballsList[i].StopThread(); }
                 ballsList.Clear();
 
         }
@@ -73,7 +73,7 @@ namespace LogicLayer
 
                             if (DetectCollision(ball, other_ball))
                             {
-                                CalculateCollision(ball, other_ball);
+                                ball.CalculateCollision(ball, other_ball);
                             }
 
                     }
@@ -98,7 +98,7 @@ namespace LogicLayer
             {
                 foreach (PoolBall ball in ballsList)
                 {
-                    positions.Add(new Vector2(ball.Position_x, ball.Position_y));
+                    positions.Add(new Vector2(ball.Position.X, ball.Position.Y));
                 }
             }
 
@@ -113,7 +113,7 @@ namespace LogicLayer
             {
                 foreach (PoolBall ball in ballsList)
                 {
-                    positions.Add(new Vector2(ball.Velocity_x, ball.Velocity_y));
+                    positions.Add(new Vector2(ball.Velocity.X, ball.Velocity.Y));
                 }
             }
 
@@ -123,8 +123,8 @@ namespace LogicLayer
         private bool DetectCollision(PoolBall ball, PoolBall other_ball)
         {
 
-            double dx = other_ball.Position_x - ball.Position_x;
-            double dy = other_ball.Position_y - ball.Position_y;
+            double dx = other_ball.Position.X - ball.Position.X;
+            double dy = other_ball.Position.Y - ball.Position.Y;
 
             double distance = Math.Sqrt(dx * dx + dy * dy);
 
@@ -132,79 +132,44 @@ namespace LogicLayer
             else return false;
 
         }
-        private void CalculateCollision(PoolBall ball, PoolBall other_ball)
-        {
-            float speedx1, speedx2, speedy1, speedy2;
-
-            bool nearWall = ball.Position_x - getRadius() <= 0 || ball.Position_x + getRadius() >= 400 ||
-                                       ball.Position_y - getRadius() <= 0 || ball.Position_y + getRadius() >= 250;
-
-            if (!nearWall)
-            {
-                speedx1 = (ball.Mass * ball.Velocity_x + other_ball.Mass * other_ball.Velocity_x - other_ball.Mass * (ball.Velocity_x - other_ball.Velocity_x)) / (ball.Mass + other_ball.Mass);
-                speedy1 = (ball.Mass * ball.Velocity_y + other_ball.Mass * other_ball.Velocity_y - other_ball.Mass * (ball.Velocity_y - other_ball.Velocity_y)) / (ball.Mass + other_ball.Mass);
-                speedx2 = (ball.Mass * ball.Velocity_x + other_ball.Mass * other_ball.Velocity_x - ball.Mass * (other_ball.Velocity_x - ball.Velocity_y)) / (ball.Mass + other_ball.Mass);
-                speedy2 = (ball.Mass * ball.Velocity_y + other_ball.Mass * other_ball.Velocity_y - other_ball.Mass * (other_ball.Velocity_y - ball.Velocity_y)) / (ball.Mass + other_ball.Mass);
-
-                ball.Velocity_x = speedx1;
-                ball.Velocity_y = speedy1;
-
-                other_ball.Velocity_x = speedx2;
-                other_ball.Velocity_y = speedy2;
-            }
-        
-
-         }
-
-
-
-
 
 
         private void checkIfOnBoard(PoolBall poolBall)
         {
-            if (poolBall.Position_x > getBoardWidth() + 50)
+            if (poolBall.Position.X > getBoardWidth() + 50)
             {
-                poolBall.Position_x = Board.width + 50;
-                poolBall.Velocity_x *= -1;
+                poolBall.BounceOffWall(getBoardWidth() + 50, false);
             }
-            else if (poolBall.Position_x < 0)
+            else if (poolBall.Position.X < 0)
             {
-                poolBall.Position_x = 0;
-                poolBall.Velocity_x *= -1;
+                poolBall.BounceOffWall(0, false);
             }
 
-            if (poolBall.Position_y > getBoardLength() - 35)
+            if (poolBall.Position.Y > getBoardLength() - 35)
             {
-                poolBall.Position_y = getBoardLength() - 35;
-                poolBall.Velocity_y *= -1;
+                poolBall.BounceOffWall(getBoardLength() - 35, true);
             }
-            else if (poolBall.Position_y < 0)
-            {
-                poolBall.Position_y = 0;
-                poolBall.Velocity_y *= -1;
+            else if (poolBall.Position.Y < 0)
+            {   
+                poolBall.BounceOffWall(0, true);
             }
 
         }
-
-
-
-
 
 
         public override int getRadius()
         {
-           return 12;
+           return dataLayer.GetRadius();
         }
 
         public override int getBoardWidth()
         {
-            return board.BoardWidth;
+            return dataLayer.GetBoardWidth();
         }
 
         public override int getBoardLength()
-        {
-            return board.BoardHeight;
+        {   
+            return dataLayer.GetBoardLength();
         }
     }
 }
