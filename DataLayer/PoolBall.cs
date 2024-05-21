@@ -22,7 +22,7 @@ namespace DataLayer
         private Vector2 position;
         private Vector2 velocity;
         private Thread? thread;
-        private int period = 4;
+        private int period = 1;
         public static int mass = 3;
         public static int radius = 12;
         private object lockObject = new object();
@@ -39,12 +39,9 @@ namespace DataLayer
         public Vector2 Position { get { return position; } private set { position = value; } }
         public Vector2 Velocity { get { return velocity; } set { velocity = value; } }
 
-        public int Mass { get { return mass; } }
-
-        public int Radius { get { return radius; } }
-        private void move()
+        private void move(int time)
         {
-            Vector2 temp = Position + Velocity;
+            Vector2 temp = new Vector2((Velocity.X * time) + Position.X, (Velocity.Y * time) + Position.Y);
             Position = temp;
 
             OnPositionChange();
@@ -54,18 +51,20 @@ namespace DataLayer
         public void randomVelocity()
         {
             Random rnd = new Random();
-            velocity.X = rnd.Next(-1, 1);
-            velocity.Y = rnd.Next(-1, 1);
+            float tempX = rnd.Next(-1, 1);
+            float tempY = rnd.Next(-1, 1);
 
-          
-            while (velocity.X == 0)
+            while (tempX == 0)
             {
-                velocity.X = rnd.Next(-1, 1);
+                tempX = rnd.Next(-1, 1);
             }
-            while (velocity.Y == 0)
+            while (tempY == 0)
             {
-                velocity.Y = rnd.Next(-1, 1);
+                tempY = rnd.Next(-1, 1);
             }
+
+            Vector2 temp = new Vector2(tempX, tempY);
+            Velocity = temp;
 
         }
 
@@ -88,7 +87,7 @@ namespace DataLayer
                     lock (moveLock)
                     {
 
-                        move();
+                        move(period - (int)sw.ElapsedMilliseconds);
 
                     }
 
@@ -97,7 +96,7 @@ namespace DataLayer
 
                      if (period - sw.ElapsedMilliseconds > 0)
                     {
-                        waiting = period - (int)sw.ElapsedMilliseconds;
+                        waiting = period - (int)sw.ElapsedMilliseconds / 2;
                      }
                      else
                      {
@@ -121,15 +120,15 @@ namespace DataLayer
         {
             float speedx1, speedx2, speedy1, speedy2;
 
-            bool nearWall = ball.Position.X - Radius <= 0 || ball.Position.X + Radius >= 400 ||
-                                       ball.Position.Y - Radius <= 0 || ball.Position.Y + Radius >= 250;
+            bool nearWall = ball.Position.X - radius <= 0 || ball.Position.X + radius >= 400 ||
+                                       ball.Position.Y - radius <= 0 || ball.Position.Y + radius >= 250;
 
             if (!nearWall)
             {
-                speedx1 = (ball.Mass * ball.Velocity.X + other_ball.Mass * other_ball.Velocity.X - other_ball.Mass * (ball.Velocity.X - other_ball.Velocity.X)) / (ball.Mass + other_ball.Mass);
-                speedy1 = (ball.Mass * ball.Velocity.Y + other_ball.Mass * other_ball.Velocity.Y - other_ball.Mass * (ball.Velocity.Y - other_ball.Velocity.Y)) / (ball.Mass + other_ball.Mass);
-                speedx2 = (ball.Mass * ball.Velocity.X + other_ball.Mass * other_ball.Velocity.X - ball.Mass * (other_ball.Velocity.X - ball.Velocity.Y)) / (ball.Mass + other_ball.Mass);
-                speedy2 = (ball.Mass * ball.Velocity.Y + other_ball.Mass * other_ball.Velocity.Y - other_ball.Mass * (other_ball.Velocity.Y - ball.Velocity.Y)) / (ball.Mass + other_ball.Mass);
+                speedx1 = (mass * ball.Velocity.X + mass * other_ball.Velocity.X - mass * (ball.Velocity.X - other_ball.Velocity.X)) / (mass + mass);
+                speedy1 = (mass * ball.Velocity.Y + mass * other_ball.Velocity.Y - mass * (ball.Velocity.Y - other_ball.Velocity.Y)) / (mass + mass);
+                speedx2 = (mass * ball.Velocity.X + mass * other_ball.Velocity.X - mass * (other_ball.Velocity.X - ball.Velocity.Y)) / (mass + mass);
+                speedy2 = (mass * ball.Velocity.Y + mass * other_ball.Velocity.Y - mass * (other_ball.Velocity.Y - ball.Velocity.Y)) / (mass + mass);
 
                 Vector2 temp = new Vector2(speedx1, speedy1);
                 Vector2 temp2 = new Vector2(speedx2, speedy2);
