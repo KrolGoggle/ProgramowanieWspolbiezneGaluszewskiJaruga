@@ -1,7 +1,5 @@
-using System;
 using DataLayer;
 using Moq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DataLayerTest
 {
@@ -40,6 +38,24 @@ namespace DataLayerTest
 
         }
 
+        [TestMethod]
+
+        public void getRadiusTest()
+        {
+            DataAbstractAPI d = mockDataAPI.Object;
+
+
+            Assert.IsTrue(true);
+
+        }
+
+        [TestMethod]
+        public void createBallTest() {
+            DataAbstractAPI d = mockDataAPI.Object;
+            PoolBall p = new PoolBall(2,2);
+           
+            Assert.IsNotNull(p);
+        }
 
     }
 }

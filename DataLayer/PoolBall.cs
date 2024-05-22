@@ -1,11 +1,6 @@
-﻿using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq.Expressions;
+﻿using System.Diagnostics;
 using System.Numerics;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
-using System.Xml.Schema;
+
 
 namespace DataLayer
 {
@@ -25,7 +20,6 @@ namespace DataLayer
         private int period = 1;
         public static int mass = 3;
         public static int radius = 12;
-        private object lockObject = new object();
 
         public PoolBall(int x, int y)
         {

@@ -1,7 +1,5 @@
-﻿using DataLayer;
-using System.Collections.Generic;
-using System;
-using System.Numerics;
+﻿using System.Numerics;
+using DataLayer;
 
 namespace LogicLayer
 {
@@ -24,6 +22,11 @@ namespace LogicLayer
 
         public static LogicAbstractAPI createLogicAPI(Random random) {
             return new LogicLayer(random);
+        }
+
+        public static LogicAbstractAPI createLogicAPI(DataAbstractAPI d)
+        {
+            return new LogicLayer(d);
         }
 
     }

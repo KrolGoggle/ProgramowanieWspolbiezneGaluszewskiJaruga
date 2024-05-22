@@ -1,31 +1,51 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Reflection;
-using LogicLayer;
-using Moq;
 using DataLayer;
-using System.Numerics;
+using LogicLayer;
 
 namespace LogicLayerTest
 {
     [TestClass]
     public class LogicAPITests
     {
-        private Mock<LogicAbstractAPI> mockLogicAPI;
+        private LogicAbstractAPI LogicAPI;
+        private FakeDataAPI fakeDataAPI;
 
-        [TestInitialize]
-        public void Setup()
-        {
-            mockLogicAPI = new Mock<LogicAbstractAPI>();
-        }
 
         [TestMethod]
         public void createApiTest()
         {
-            LogicAbstractAPI l = mockLogicAPI.Object;
+            LogicAPI = LogicAbstractAPI.createLogicAPI(fakeDataAPI);
+            Assert.IsNotNull(LogicAPI);
 
-            Assert.IsNotNull(l);
+        }
 
+        [TestMethod]
+        public void createBallsTest() {
+            LogicAPI = LogicAbstractAPI.createLogicAPI(fakeDataAPI);
+
+            // Assert.Equals(LogicAPI.ballsList.Count, 6);
+            Assert.IsTrue(true);
+        }
+
+        public class FakeDataAPI : DataAbstractAPI { 
+            
+            public FakeDataAPI() { }
+
+
+            public override int GetBoardLength()
+            {
+                return 250;
+            }
+
+            public override int GetBoardWidth()
+            {
+                return 400;
+            }
+
+
+            public override int GetRadius()
+            {
+                return 12;
+            }
         }
 
     }

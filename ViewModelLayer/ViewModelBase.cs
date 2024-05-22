@@ -1,9 +1,8 @@
-﻿using ModelLayer;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using ModelLayer;
 
 
 namespace ViewModelLayer

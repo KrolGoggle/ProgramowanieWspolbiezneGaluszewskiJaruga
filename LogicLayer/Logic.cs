@@ -1,10 +1,5 @@
-﻿using DataLayer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Numerics;
+using DataLayer;
 
 namespace LogicLayer
 {
@@ -24,6 +19,15 @@ namespace LogicLayer
         {
             this.random = random;
             dataLayer = DataAbstractAPI.createDataAPI();
+            ballsList = new List<PoolBall>();
+            board = new Board();
+            timer = new System.Timers.Timer(100);
+        }
+
+        public LogicLayer(DataAbstractAPI d)
+        {
+            this.random = random;
+            dataLayer = d;
             ballsList = new List<PoolBall>();
             board = new Board();
             timer = new System.Timers.Timer(100);
@@ -54,7 +58,7 @@ namespace LogicLayer
         public override event EventHandler LogicEvent;
 
 
-        object moveLock = new object();
+        private object moveLock = new object();
 
         private void HandlePositionChange(Object sender, EventArgs e)
         {
