@@ -20,6 +20,7 @@ namespace DataLayer
         private int period = 1;
         public static int mass = 3;
         public static int radius = 12;
+        private readonly CriticalSection criticalSection = new CriticalSection();
 
         public PoolBall(int x, int y)
         {
@@ -62,7 +63,7 @@ namespace DataLayer
 
         }
 
-        object moveLock = new object();
+      
         private bool shouldStop = false;
 
         private void createThread()
@@ -78,12 +79,10 @@ namespace DataLayer
                     sw.Restart();    
                     sw.Start();
 
-                    lock (moveLock)
+                    criticalSection.Enter(() =>
                     {
-
-                        move(period - (int)sw.ElapsedMilliseconds);
-
-                    }
+                        move(period);
+                    });
 
 
                     sw.Stop();       
