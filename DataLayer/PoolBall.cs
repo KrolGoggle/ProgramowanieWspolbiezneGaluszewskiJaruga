@@ -7,9 +7,9 @@ namespace DataLayer
 
     public interface IPoolBall {
         public void StopThread();
-        public Vector2 Position { get; }
+        public abstract Vector2 Position { get; }
 
-        public Vector2 Velocity { get; set; }
+        public abstract Vector2 Velocity { get; set; }
     }
 
     public class PoolBall : IPoolBall
@@ -21,6 +21,8 @@ namespace DataLayer
         public static int mass = 3;
         public static int radius = 12;
         private readonly CriticalSection criticalSection = new CriticalSection();
+        private object move_lock = new object();
+        private object velocity_lock = new object();
 
         public PoolBall(int x, int y)
         {
@@ -31,14 +33,16 @@ namespace DataLayer
 
         }
 
-        public Vector2 Position { get { return position; } private set { position = value; } }
-        public Vector2 Velocity { get { return velocity; } set { velocity = value; } }
+        public Vector2 Position { get { lock (move_lock) { return position; } } private set { position = value; } }
+        public Vector2 Velocity { get { lock (velocity_lock) { return velocity; } } set { velocity = value; } }
 
         private void move(int time)
         {
-            Vector2 temp = new Vector2((Velocity.X * time) + Position.X, (Velocity.Y * time) + Position.Y);
-            Position = temp;
-
+            lock (move_lock)
+            {
+                Vector2 temp = new Vector2((Velocity.X * time) + Position.X, (Velocity.Y * time) + Position.Y);
+                Position = temp;
+            }
             OnPositionChange();
 
         }
@@ -79,17 +83,14 @@ namespace DataLayer
                     sw.Restart();    
                     sw.Start();
 
-                    criticalSection.Enter(() =>
-                    {
                         move(period);
-                    });
 
 
                     sw.Stop();       
 
                      if (period - sw.ElapsedMilliseconds > 0)
                     {
-                        waiting = period - (int)sw.ElapsedMilliseconds / 2;
+                        waiting = period - (int)sw.ElapsedMilliseconds;
                      }
                      else
                      {
