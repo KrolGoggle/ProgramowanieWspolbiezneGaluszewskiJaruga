@@ -20,7 +20,6 @@ namespace DataLayer
         private int period = 1;
         public static int mass = 3;
         public static int radius = 12;
-        private readonly CriticalSection criticalSection = new CriticalSection();
         private object move_lock = new object();
         private object velocity_lock = new object();
 
