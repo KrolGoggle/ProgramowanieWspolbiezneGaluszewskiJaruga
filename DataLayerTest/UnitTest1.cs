@@ -52,7 +52,7 @@ namespace DataLayerTest
         [TestMethod]
         public void createBallTest() {
             DataAbstractAPI d = mockDataAPI.Object;
-            PoolBall p = new PoolBall(2,2);
+            PoolBall p = new PoolBall(0,2,2);
            
             Assert.IsNotNull(p);
         }

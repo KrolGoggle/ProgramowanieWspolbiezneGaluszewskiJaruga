@@ -9,7 +9,9 @@ namespace ModelLayer
 
         private LogicAbstractAPI logicLayer;
 
-        private ObservableCollection<IModelPoolBall> visiblePoolBals = new ObservableCollection<IModelPoolBall>();
+        private ObservableCollection<IModelPoolBall> visiblePoolBalls = new ObservableCollection<IModelPoolBall>();
+
+        private Dictionary<int, IModelPoolBall> ballDictionary = new Dictionary<int, IModelPoolBall>();
 
         private int createdVisibleBalls = 0;
 
@@ -50,31 +52,32 @@ namespace ModelLayer
 
         public override ObservableCollection<IModelPoolBall> createVisibleBalls()
         {
-            visiblePoolBals.Clear();
-            foreach (Vector2 position in logicLayer.getPosition())
+            ballDictionary.Clear();
+            visiblePoolBalls.Clear();
+
+            var positions = logicLayer.getPosition();
+            for (int i = 0; i < positions.Count; i++)
             {
-                IModelPoolBall PoolBall = IModelPoolBall.createBall(position, logicLayer.getRadius());
-                visiblePoolBals.Add(PoolBall);
+                var position = positions[i];
+                IModelPoolBall poolBall = IModelPoolBall.createBall(position, logicLayer.getRadius());
+                visiblePoolBalls.Add(poolBall);
+                ballDictionary[i] = poolBall; // use the same ID as in logic layer
             }
-            createdVisibleBalls = visiblePoolBals.Count();
-            return visiblePoolBals;
+
+            createdVisibleBalls = visiblePoolBalls.Count();
+            return visiblePoolBalls;
         }
 
 
 
-        public void moveVisibleBalls(object sender, EventArgs e)
+        public void moveVisibleBalls(object sender, BallEventArgs e)
         {
 
-            int i = 0;
-
-            foreach (Vector2 ball in logicLayer.getPosition())
+            if (ballDictionary.TryGetValue(e.ballID, out var ball))
             {
-                if (current_balls == visiblePoolBals.Count)
-                {
-                    visiblePoolBals[i].Position = ball; 
-                    i++;
-                }
+                ball.Position = e.Position;
             }
+       
 
         }
 

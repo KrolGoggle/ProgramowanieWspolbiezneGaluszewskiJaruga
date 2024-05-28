@@ -16,6 +16,9 @@ namespace DataLayer
     {
         private Vector2 position;
         private Vector2 velocity;
+
+        public int ID { get; }
+
         private Thread? thread;
         private int period = 1;
         public static int mass = 3;
@@ -23,8 +26,12 @@ namespace DataLayer
         private object move_lock = new object();
         private object velocity_lock = new object();
 
-        public PoolBall(int x, int y)
+
+
+        public PoolBall(int id, int x, int y)
         {
+
+            ID = id;
             position.X = x;
             position.Y = y;
             randomVelocity();

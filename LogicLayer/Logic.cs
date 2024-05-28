@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Drawing;
+using System.Numerics;
 using DataLayer;
 
 namespace LogicLayer
@@ -42,7 +43,7 @@ namespace LogicLayer
             {
                 x = random.Next(5, board.BoardWidth - 10);
                 y = random.Next(5, board.BoardHeight - 10);
-                ballsList.Add(new PoolBall(x, y));
+                ballsList.Add(new PoolBall(i, x, y));
                 ballsList[i].PositionChange += HandlePositionChange;
             }
 
@@ -55,7 +56,7 @@ namespace LogicLayer
 
         }
 
-        public override event EventHandler LogicEvent;
+        public override event EventHandler<BallEventArgs> LogicEvent;
 
 
         private object moveLock = new object();
@@ -82,7 +83,7 @@ namespace LogicLayer
 
                     }
 
-                    LogicEvent?.Invoke(sender, EventArgs.Empty);
+                    LogicEvent?.Invoke(this, new BallEventArgs(ball.Position,ball.ID));
                 }
             }
                 
@@ -109,21 +110,7 @@ namespace LogicLayer
             return positions;
         }
 
-        public override List<Vector2> getVelocity()
-        {
-            List<Vector2> positions = new List<Vector2>();
-
-            if (ballsList != null)
-            {
-                foreach (PoolBall ball in ballsList)
-                {
-                    positions.Add(new Vector2(ball.Velocity.X, ball.Velocity.Y));
-                }
-            }
-
-            return positions;
-        }
-
+  
         private bool DetectCollision(PoolBall ball, PoolBall other_ball)
         {
 
@@ -176,4 +163,29 @@ namespace LogicLayer
             return dataLayer.GetBoardLength();
         }
     }
+
+
+
+
+    public class BallEventArgs : EventArgs
+    {
+       public Vector2 Position { get; }
+       public int ballID { get; }
+
+        public BallEventArgs(Vector2 position, int ballid)
+        {
+            Position = position;
+            ballID = ballid;
+            
+        }
+    }
+
+
+
+
+
+
+
+
+
 }

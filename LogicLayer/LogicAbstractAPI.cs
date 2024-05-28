@@ -10,9 +10,9 @@ namespace LogicLayer
         public abstract List<PoolBall> ballsList { get; }
         public abstract Board board { get; }
 
-        public abstract event EventHandler LogicEvent;
+        public abstract event EventHandler<BallEventArgs> LogicEvent;
         public abstract List<Vector2> getPosition();
-        public abstract List<Vector2> getVelocity();
+     
 
         public abstract System.Timers.Timer timer { get; }
         public abstract int getRadius();
