@@ -32,16 +32,15 @@ namespace DataLayer
 
         }
 
-        public Vector2 Position { get { lock (move_lock) { return position; } } private set { position = value; } }
-        public Vector2 Velocity { get { lock (velocity_lock) { return velocity; } } set { velocity = value; } }
+        public Vector2 Position { get { lock (move_lock) { return position; } } private set { lock (move_lock) { position = value; } } }
+        public Vector2 Velocity { get { lock (velocity_lock) { return velocity; } } set { lock (velocity_lock) { velocity = value; } } }
 
         private void move(int time)
         {
-            lock (move_lock)
-            {
-                Vector2 temp = new Vector2((Velocity.X * time) + Position.X, (Velocity.Y * time) + Position.Y);
-                Position = temp;
-            }
+            
+            Vector2 temp = new Vector2((Velocity.X * time) + Position.X, (Velocity.Y * time) + Position.Y);
+            Position = temp;
+            
             OnPositionChange();
 
         }

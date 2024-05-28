@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 
 namespace ModelLayer
@@ -8,18 +9,28 @@ namespace ModelLayer
        
     public event PropertyChangedEventHandler? PropertyChanged;
 
-        private float pos_X;
-        private float pos_Y;
         private int radius;
+        Vector2 position;
+        private object pos_lock = new object();
 
-        public override float Pos_X { get => pos_X; set { pos_X = value; NotifyPropertyChanged(); } }
-        public override float Pos_Y { get => pos_Y; set { pos_Y = value; NotifyPropertyChanged(); } }
+        public override Vector2 Position { get { lock (pos_lock) { return position; } } 
+            set { lock (pos_lock) { position = value; NotifyPropertyChanged(nameof(X)); NotifyPropertyChanged(nameof(Y)); } } }
+
+        public double X
+        {
+            get => Position.X;
+        }
+
+        public double Y
+        {
+            get => Position.Y;
+        }
+
         public override int Radius { get => radius; }
 
-        public ModelPoolBall(float X, float Y, int r)
+        public ModelPoolBall(Vector2 pos, int r)
         {
-            this.pos_X = X;
-            this.pos_Y = Y;
+            this.position = pos;
             this.radius = r;
 
         }

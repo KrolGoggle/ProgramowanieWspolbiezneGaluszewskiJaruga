@@ -53,7 +53,7 @@ namespace ModelLayer
             visiblePoolBals.Clear();
             foreach (Vector2 position in logicLayer.getPosition())
             {
-                IModelPoolBall PoolBall = IModelPoolBall.createBall(position.X, position.Y, logicLayer.getRadius());
+                IModelPoolBall PoolBall = IModelPoolBall.createBall(position, logicLayer.getRadius());
                 visiblePoolBals.Add(PoolBall);
             }
             createdVisibleBalls = visiblePoolBals.Count();
@@ -71,8 +71,7 @@ namespace ModelLayer
             {
                 if (current_balls == visiblePoolBals.Count)
                 {
-                    visiblePoolBals[i].Pos_X = ball.X;
-                    visiblePoolBals[i].Pos_Y = ball.Y;
+                    visiblePoolBals[i].Position = ball; 
                     i++;
                 }
             }

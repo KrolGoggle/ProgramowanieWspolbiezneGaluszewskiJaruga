@@ -1,15 +1,16 @@
-﻿namespace ModelLayer
+﻿using System.Numerics;
+
+namespace ModelLayer
 {
     public abstract class IModelPoolBall
     {
 
-        public abstract float Pos_X { get; set; }
-        public abstract float Pos_Y { get; set; }
+        public abstract Vector2 Position { get; set; }
         public abstract int Radius { get; }
 
-        public static IModelPoolBall createBall(float x, float y, int r)
+        public static IModelPoolBall createBall(Vector2 pos, int r)
         {
-            return new ModelPoolBall(x, y, r);
+            return new ModelPoolBall(pos, r);
         }
 
     }
