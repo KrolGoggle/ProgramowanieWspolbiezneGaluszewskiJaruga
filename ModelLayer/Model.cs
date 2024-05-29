@@ -73,10 +73,7 @@ namespace ModelLayer
             lock (moveLock)
             {
 
-            if (e.ballID < visiblePoolBalls.Count)
-                {
-                visiblePoolBalls[e.ballID].Position = e.Position;
-                }
+                visiblePoolBalls[e.ballID].Position = e.Position;               
 
             }
 
