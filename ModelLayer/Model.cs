@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Numerics;
 using LogicLayer;
 
 namespace ModelLayer
@@ -11,7 +10,6 @@ namespace ModelLayer
 
         private ObservableCollection<IModelPoolBall> visiblePoolBalls = new ObservableCollection<IModelPoolBall>();
 
-        private Dictionary<int, IModelPoolBall> ballDictionary = new Dictionary<int, IModelPoolBall>();
 
         private int createdVisibleBalls = 0;
 
@@ -24,7 +22,7 @@ namespace ModelLayer
         public ModelLayer()
         {
             logicLayer = LogicAbstractAPI.createLogicAPI(random);
-            logicLayer.LogicEvent += moveVisibleBalls;
+            logicLayer.LogicEvent += moveVisibleBall;
 
         }
 
@@ -52,7 +50,7 @@ namespace ModelLayer
 
         public override ObservableCollection<IModelPoolBall> createVisibleBalls()
         {
-            ballDictionary.Clear();
+          
             visiblePoolBalls.Clear();
 
             var positions = logicLayer.getPosition();
@@ -61,23 +59,29 @@ namespace ModelLayer
                 var position = positions[i];
                 IModelPoolBall poolBall = IModelPoolBall.createBall(position, logicLayer.getRadius());
                 visiblePoolBalls.Add(poolBall);
-                ballDictionary[i] = poolBall; // use the same ID as in logic layer
             }
 
             createdVisibleBalls = visiblePoolBalls.Count();
             return visiblePoolBalls;
         }
 
+        private object moveLock = new object();
 
-
-        public void moveVisibleBalls(object sender, BallEventArgs e)
+        public void moveVisibleBall(object sender, BallEventArgs e)
         {
 
-            if (ballDictionary.TryGetValue(e.ballID, out var ball))
+            lock (moveLock)
             {
-                ball.Position = e.Position;
+
+            if (e.ballID < visiblePoolBalls.Count)
+                {
+                visiblePoolBalls[e.ballID].Position = e.Position;
+                }
+
             }
-       
+
+         
+
 
         }
 
