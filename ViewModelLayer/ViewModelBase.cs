@@ -1,8 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using ModelLayer;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
-using ModelLayer;
 
 
 namespace ViewModelLayer
@@ -49,14 +49,15 @@ namespace ViewModelLayer
         private void Add(object parameter)
         {
 
-            if (ballsToAdd > 0) { 
-            IsAddEnabled = false;
-            modelAPI.createPoolBalls(ballsToAdd);
-            modelAPI.createVisibleBalls();
-            isRunning = false;
-            currentBalls = modelAPI.getCurrentVisibleBalls();
-            RaisePropertyChanged(nameof(PoolBalls));
-            if (currentBalls > 0) { ((RelayCommand)CommandStop).RaiseCanExecuteChanged(); }
+            if (ballsToAdd > 0)
+            {
+                IsAddEnabled = false;
+                modelAPI.createPoolBalls(ballsToAdd);
+                modelAPI.createVisibleBalls();
+                isRunning = false;
+                currentBalls = modelAPI.getCurrentVisibleBalls();
+                RaisePropertyChanged(nameof(PoolBalls));
+                if (currentBalls > 0) { ((RelayCommand)CommandStop).RaiseCanExecuteChanged(); }
             }
             ;
         }

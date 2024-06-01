@@ -65,20 +65,11 @@ namespace ModelLayer
             return visiblePoolBalls;
         }
 
-        private object moveLock = new object();
 
-        public void moveVisibleBall(object sender, BallEventArgs e)
+        private void moveVisibleBall(object sender, BallEventArgs e)
         {
 
-            lock (moveLock)
-            {
-
-                visiblePoolBalls[e.ballID].Position = e.Position;               
-
-            }
-
-         
-
+                visiblePoolBalls[e.ballID].Position = e.Position;                        
 
         }
 
