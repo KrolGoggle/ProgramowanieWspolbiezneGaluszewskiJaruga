@@ -5,7 +5,8 @@
         public static int width = 400;
         public static int height = 250;
 
-        public Board() {
+        public Board()
+        {
         }
 
         public int BoardWidth { get { return width; } }

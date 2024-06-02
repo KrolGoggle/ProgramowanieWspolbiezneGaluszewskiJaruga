@@ -1,6 +1,5 @@
-﻿using System.Drawing;
+﻿using DataLayer;
 using System.Numerics;
-using DataLayer;
 
 namespace LogicLayer
 {
@@ -36,7 +35,7 @@ namespace LogicLayer
 
         public override void createBalls(int amount)
         {
-            
+
             int x = 0;
             int y = 0;
             for (int i = 0; i < amount; i++)
@@ -51,8 +50,8 @@ namespace LogicLayer
 
         public override void deleteBalls()
         {
-            for (int i = 0;i < ballsList.Count;i++) { ballsList[i].StopThread(); }
-                ballsList.Clear();
+            for (int i = 0; i < ballsList.Count; i++) { ballsList[i].StopThread(); }
+            ballsList.Clear();
 
         }
 
@@ -65,15 +64,16 @@ namespace LogicLayer
         {
             try
             {
-                lock (moveLock) { 
-                if (sender != null)
+                lock (moveLock)
                 {
-                    PoolBall ball = (PoolBall)sender;
-
-
-                    checkIfOnBoard(ball);
-                    foreach (PoolBall other_ball in ballsList)
+                    if (sender != null)
                     {
+                        PoolBall ball = (PoolBall)sender;
+
+
+                        checkIfOnBoard(ball);
+                        foreach (PoolBall other_ball in ballsList)
+                        {
                             if (ball.Equals(other_ball)) continue;
 
                             if (DetectCollision(ball, other_ball))
@@ -81,12 +81,12 @@ namespace LogicLayer
                                 ball.CalculateCollision(ball, other_ball);
                             }
 
-                    }
+                        }
 
-                    LogicEvent?.Invoke(this, new BallEventArgs(ball.Position,ball.ID));
+                        LogicEvent?.Invoke(this, new BallEventArgs(ball.Position, ball.ID));
+                    }
                 }
-            }
-                
+
             }
             catch (Exception ex)
             {
@@ -110,7 +110,7 @@ namespace LogicLayer
             return positions;
         }
 
-  
+
         private bool DetectCollision(PoolBall ball, PoolBall other_ball)
         {
 
@@ -141,7 +141,7 @@ namespace LogicLayer
                 poolBall.BounceOffWall(getBoardLength() - 35, true);
             }
             else if (poolBall.Position.Y < 0)
-            {   
+            {
                 poolBall.BounceOffWall(0, true);
             }
 
@@ -150,7 +150,7 @@ namespace LogicLayer
 
         public override int getRadius()
         {
-           return dataLayer.GetRadius();
+            return dataLayer.GetRadius();
         }
 
         public override int getBoardWidth()
@@ -159,7 +159,7 @@ namespace LogicLayer
         }
 
         public override int getBoardLength()
-        {   
+        {
             return dataLayer.GetBoardLength();
         }
     }
@@ -169,14 +169,14 @@ namespace LogicLayer
 
     public class BallEventArgs : EventArgs
     {
-       public Vector2 Position { get; }
-       public int ballID { get; }
+        public Vector2 Position { get; }
+        public int ballID { get; }
 
         public BallEventArgs(Vector2 position, int ballid)
         {
             Position = position;
             ballID = ballid;
-            
+
         }
     }
 

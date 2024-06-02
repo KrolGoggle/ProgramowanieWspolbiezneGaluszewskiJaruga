@@ -5,7 +5,8 @@ using System.Numerics;
 namespace DataLayer
 {
 
-    public interface IPoolBall {
+    public interface IPoolBall
+    {
         public void StopThread();
         public abstract Vector2 Position { get; }
 
@@ -44,10 +45,10 @@ namespace DataLayer
 
         private void move(int time)
         {
-            
+
             Vector2 temp = new Vector2((Velocity.X * time) + Position.X, (Velocity.Y * time) + Position.Y);
             Position = temp;
-            
+
             OnPositionChange();
 
         }
@@ -72,37 +73,37 @@ namespace DataLayer
 
         }
 
-      
+
         private bool shouldStop = false;
 
         private void createThread()
         {
-           Stopwatch sw = new Stopwatch();
+            Stopwatch sw = new Stopwatch();
 
             thread = new Thread(() =>
             {
-                int waiting = 0;           
+                int waiting = 0;
 
                 while (!shouldStop)
                 {
-                    sw.Restart();    
+                    sw.Restart();
                     sw.Start();
 
-                        move(period);
+                    move(period);
 
 
-                    sw.Stop();       
+                    sw.Stop();
 
-                     if (period - sw.ElapsedMilliseconds > 0)
+                    if (period - sw.ElapsedMilliseconds > 0)
                     {
                         waiting = period - (int)sw.ElapsedMilliseconds;
-                     }
-                     else
-                     {
+                    }
+                    else
+                    {
                         waiting = 0;
-                     }
+                    }
 
-                   Thread.Sleep(waiting);
+                    Thread.Sleep(waiting);
                 }
             });
 
@@ -110,7 +111,8 @@ namespace DataLayer
 
         }
 
-        public void StopThread() {
+        public void StopThread()
+        {
             shouldStop = true;
             thread.Join();
         }
@@ -138,7 +140,8 @@ namespace DataLayer
 
         public void BounceOffWall(int wall, bool top)
         {
-            if (top == true) {
+            if (top == true)
+            {
                 Vector2 tempPos = new Vector2(Position.X, wall);
                 Vector2 tempVel = new Vector2(Velocity.X, Velocity.Y * -1);
 
@@ -165,5 +168,5 @@ namespace DataLayer
 
     }
 
-    
+
 }

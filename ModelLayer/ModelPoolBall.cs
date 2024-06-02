@@ -4,17 +4,20 @@ using System.Runtime.CompilerServices;
 
 namespace ModelLayer
 {
-    internal class ModelPoolBall :IModelPoolBall, INotifyPropertyChanged
+    internal class ModelPoolBall : IModelPoolBall, INotifyPropertyChanged
     {
-       
-    public event PropertyChangedEventHandler? PropertyChanged;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         private int radius;
         Vector2 position;
         private object pos_lock = new object();
 
-        public override Vector2 Position { get { lock (pos_lock) { return position; } } 
-            set { lock (pos_lock) { position = value; NotifyPropertyChanged(nameof(X)); NotifyPropertyChanged(nameof(Y)); } } }
+        public Vector2 Position
+        {
+            get { lock (pos_lock) { return position; } }
+            set { lock (pos_lock) { position = value; NotifyPropertyChanged(nameof(X)); NotifyPropertyChanged(nameof(Y)); } }
+        }
 
         public double X
         {
@@ -26,7 +29,7 @@ namespace ModelLayer
             get => Position.Y;
         }
 
-        public override int Radius { get => radius; }
+        public int Radius { get => radius; }
 
         public ModelPoolBall(Vector2 pos, int r)
         {
@@ -34,13 +37,13 @@ namespace ModelLayer
             this.radius = r;
 
         }
-       
+
 
         private void NotifyPropertyChanged([CallerMemberName] string? propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        
+
     }
 }

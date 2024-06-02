@@ -20,6 +20,6 @@ namespace ModelLayer
         public abstract int getCurrentVisibleBalls();
 
     }
-        
-   
+
+
 }

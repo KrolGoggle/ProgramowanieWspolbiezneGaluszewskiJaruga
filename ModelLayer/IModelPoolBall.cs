@@ -1,17 +1,25 @@
-﻿using System.Numerics;
+﻿using System.ComponentModel;
+using System.Numerics;
 
 namespace ModelLayer
 {
-    public abstract class IModelPoolBall
+    public interface IModelPoolBall : INotifyPropertyChanged
     {
 
-        public abstract Vector2 Position { get; set; }
-        public abstract int Radius { get; }
+        abstract Vector2 Position { get; set; }
+        abstract int Radius { get; }
 
-        public static IModelPoolBall createBall(Vector2 pos, int r)
+        static IModelPoolBall createBall(Vector2 pos, int r)
         {
             return new ModelPoolBall(pos, r);
         }
 
     }
+
+
+    public class BallChaneEventArgs : EventArgs
+    {
+        public IModelPoolBall Ball { get; internal set; }
+    }
+
 }

@@ -1,5 +1,5 @@
-﻿using System.Collections.ObjectModel;
-using LogicLayer;
+﻿using LogicLayer;
+using System.Collections.ObjectModel;
 
 namespace ModelLayer
 {
@@ -29,12 +29,12 @@ namespace ModelLayer
         public override void createPoolBalls(int amount)
         {
             if (amount >= 0)
-            { 
-            
-             this.current_balls += amount;
+            {
+
+                this.current_balls += amount;
 
 
-             logicLayer.createBalls(amount); 
+                logicLayer.createBalls(amount);
             }
         }
 
@@ -46,11 +46,11 @@ namespace ModelLayer
         }
 
 
-      
+
 
         public override ObservableCollection<IModelPoolBall> createVisibleBalls()
         {
-          
+
             visiblePoolBalls.Clear();
 
             var positions = logicLayer.getPosition();
@@ -69,7 +69,7 @@ namespace ModelLayer
         private void moveVisibleBall(object sender, BallEventArgs e)
         {
 
-                visiblePoolBalls[e.ballID].Position = e.Position;                        
+            visiblePoolBalls[e.ballID].Position = e.Position;
 
         }
 
@@ -77,6 +77,7 @@ namespace ModelLayer
         {
             return createdVisibleBalls;
         }
+
 
     }
 
