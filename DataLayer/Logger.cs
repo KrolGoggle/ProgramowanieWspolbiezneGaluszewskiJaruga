@@ -22,8 +22,8 @@ namespace Data
         {
        
             writerXml = XmlWriter.Create("logger.xml");
-            writerXml.WriteStartElement("Positions");
-            logger = new Thread(new ThreadStart(ProcessQueue));
+            writerXml.WriteStartElement("locationPoolBall");
+            logger = new Thread(new ThreadStart(ThreadQueue));
             logger.IsBackground = true; 
             logger.Start();
         }
@@ -68,7 +68,7 @@ namespace Data
             hasNewItems.Set();
         }
 
-        private void ProcessQueue()
+        private void ThreadQueue()
         {
             while (true)
             {
