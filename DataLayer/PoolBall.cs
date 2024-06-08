@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using Data;
+using System.Diagnostics;
 using System.Numerics;
 
 
@@ -90,7 +91,7 @@ namespace DataLayer
                     sw.Start();
 
                     move(period);
-
+                    Logger.GetInstance().LogBallPosition(ID, new Vector2(Position.X, Position.Y));
 
                     sw.Stop();
 
