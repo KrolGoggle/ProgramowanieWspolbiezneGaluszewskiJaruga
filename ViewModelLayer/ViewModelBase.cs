@@ -33,7 +33,6 @@ namespace ViewModelLayer
             addEnabled = true;
         }
 
-
         private void stopSimulation(object parameter)
         {
             IsAddEnabled = true;

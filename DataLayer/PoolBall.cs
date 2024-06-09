@@ -44,7 +44,7 @@ namespace DataLayer
         public Vector2 Position { get { lock (move_lock) { return position; } } private set { lock (move_lock) { position = value; } } }
         public Vector2 Velocity { get { lock (velocity_lock) { return velocity; } } set { lock (velocity_lock) { velocity = value; } } }
 
-        private void move(int time)
+        private void move(long time)
         {
 
             Vector2 temp = new Vector2((Velocity.X * time) + Position.X, (Velocity.Y * time) + Position.Y);
@@ -84,20 +84,23 @@ namespace DataLayer
             thread = new Thread(() =>
             {
                 int waiting = 0;
+                sw.Restart();
+                sw.Start();
+                long lastElapsed = sw.ElapsedMilliseconds;
 
                 while (!shouldStop)
                 {
-                    sw.Restart();
-                    sw.Start();
+                    long currentElapsed = sw.ElapsedMilliseconds;
+                    long deltaTime = currentElapsed - lastElapsed;
+                    lastElapsed = currentElapsed;
 
-                    move(period);
+                    move(deltaTime);
                     Logger.GetInstance().LogBallPosition(ID, new Vector2(Position.X, Position.Y));
 
-                    sw.Stop();
-
-                    if (period - sw.ElapsedMilliseconds > 0)
+                    long nextMoveTime = currentElapsed + period;
+                    if (sw.ElapsedMilliseconds < nextMoveTime)
                     {
-                        waiting = period - (int)sw.ElapsedMilliseconds;
+                        waiting = period;
                     }
                     else
                     {
