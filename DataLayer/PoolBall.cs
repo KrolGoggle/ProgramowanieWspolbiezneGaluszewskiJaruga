@@ -19,7 +19,7 @@ namespace DataLayer
         private Vector2 position;
         private Vector2 velocity;
 
-        public int ID { get; }
+         public  int ID { get; }
 
         private Thread? thread;
         private int period = 1;
@@ -95,7 +95,7 @@ namespace DataLayer
                     lastElapsed = currentElapsed;
 
                     move(deltaTime);
-                    Logger.GetInstance().LogBallPosition(ID, new Vector2(Position.X, Position.Y));
+                    Logger.GetInstance().LogBallPosition(ID, new Vector2(Position.X, Position.Y), DateTime.UtcNow);
 
                     long nextMoveTime = currentElapsed + period;
                     if (sw.ElapsedMilliseconds < nextMoveTime)

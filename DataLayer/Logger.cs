@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Numerics;
-using System.Threading;
+﻿using System.Numerics;
 using System.Xml;
 
 namespace Data
@@ -12,27 +8,27 @@ namespace Data
         private static Logger _instance;
         private static readonly object _lock = new object();
 
-        private Queue<LogEntry> loggerQueue = new Queue<LogEntry>(); 
-        private AutoResetEvent hasNewItems = new AutoResetEvent(false); 
+        private Queue<LogEntry> loggerQueue = new Queue<LogEntry>();
+        private AutoResetEvent hasNewItems = new AutoResetEvent(false);
         private XmlWriter writerXml;
-        private Thread logger; 
-        private readonly int size = 50; 
+        private Thread logger;
+        private readonly int size = 100;
 
         private Logger()
         {
-       
+
             writerXml = XmlWriter.Create("logger.xml");
             writerXml.WriteStartElement("locationPoolBall");
             logger = new Thread(new ThreadStart(ThreadQueue));
-            logger.IsBackground = true; 
+            logger.IsBackground = true;
             logger.Start();
         }
 
         ~Logger()
         {
-            logger.Join(); 
+            logger.Join();
 
-            lock (writerXml) 
+            lock (writerXml)
             {
                 writerXml.WriteEndElement();
                 writerXml.Close();
@@ -41,19 +37,22 @@ namespace Data
 
         public static Logger GetInstance()
         {
-            
+
+            if (_instance == null)
+            {
                 lock (_lock)
                 {
-                    if (_instance == null) 
+                    if (_instance == null)
                     {
                         _instance = new Logger();
                     }
                 }
-            
+            }
             return _instance;
+
         }
 
-        public void LogBallPosition(int id, Vector2 position)
+        public void LogBallPosition(int id, Vector2 position, DateTime time)
         {
             lock (loggerQueue)
             {
@@ -62,7 +61,7 @@ namespace Data
                     throw new InvalidOperationException("bufor jest zapelniony.");
                 }
 
-                loggerQueue.Enqueue(new LogEntry(id, position));
+                loggerQueue.Enqueue(new LogEntry(id, position, time));
             }
 
             hasNewItems.Set();
@@ -72,20 +71,31 @@ namespace Data
         {
             while (true)
             {
-                hasNewItems.WaitOne(); 
+                hasNewItems.WaitOne();
 
-                Queue<LogEntry> queueCopy;
-                lock (loggerQueue) 
+
+                if (loggerQueue.Count > 0)
                 {
-                    queueCopy = new Queue<LogEntry>(loggerQueue); 
-                    loggerQueue.Clear(); 
+
+                    while (loggerQueue.Count > 0)
+                    {
+
+
+                        LogEntry logEntry = loggerQueue.Dequeue();
+                        if (logEntry != null)
+                        {
+                            LogBallPositionAsXML(logEntry);
+                        }
+
+                    }
+
+                    loggerQueue.Clear();
+                    hasNewItems.Reset();
+
                 }
 
-                foreach (LogEntry logEntry in queueCopy)
-                {
-                    LogBallPositionAsXML(logEntry); 
-                }
-                hasNewItems.Reset(); 
+
+
             }
         }
 
@@ -98,7 +108,7 @@ namespace Data
                 writerXml.WriteElementString("id", logEntry.ID.ToString());
                 writerXml.WriteElementString("x", logEntry.Position.X.ToString());
                 writerXml.WriteElementString("y", logEntry.Position.Y.ToString());
-                writerXml.WriteElementString("timestamp", DateTime.Now.ToString("u"));
+                writerXml.WriteElementString("timestamp", logEntry.Time.ToString("u"));
                 writerXml.WriteEndElement();
                 writerXml.Flush();
             }
@@ -109,11 +119,13 @@ namespace Data
     {
         public int ID { get; }
         public Vector2 Position { get; }
+        public DateTime Time { get; }
 
-        public LogEntry(int id, Vector2 position)
+        public LogEntry(int id, Vector2 position, DateTime time)
         {
             ID = id;
             Position = position;
+            Time = time;
         }
     }
 }

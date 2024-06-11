@@ -47,10 +47,8 @@ namespace ModelLayer
 
 
 
-
         public override ObservableCollection<IModelPoolBall> createVisibleBalls()
         {
-
             visiblePoolBalls.Clear();
 
             var positions = logicLayer.getPosition();
@@ -66,12 +64,21 @@ namespace ModelLayer
         }
 
 
+
+
+
+
         private void moveVisibleBall(object sender, BallEventArgs e)
         {
 
             visiblePoolBalls[e.ballID].Position = e.Position;
 
         }
+
+
+
+
+
 
         public override int getCurrentVisibleBalls()
         {
