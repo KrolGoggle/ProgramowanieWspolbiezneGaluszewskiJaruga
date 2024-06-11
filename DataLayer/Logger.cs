@@ -16,7 +16,6 @@ namespace Data
 
         private Logger()
         {
-
             writerXml = XmlWriter.Create("logger.xml");
             writerXml.WriteStartElement("locationPoolBall");
             logger = new Thread(new ThreadStart(ThreadQueue));
@@ -59,6 +58,7 @@ namespace Data
                 if (loggerQueue.Count >= size)
                 {
                     throw new InvalidOperationException("bufor jest zapelniony.");
+                    return;
                 }
 
                 loggerQueue.Enqueue(new LogEntry(id, position, time));
@@ -77,8 +77,6 @@ namespace Data
                 if (loggerQueue.Count > 0)
                 {
 
-                    while (loggerQueue.Count > 0)
-                    {
 
 
                         LogEntry logEntry = loggerQueue.Dequeue();
@@ -87,10 +85,8 @@ namespace Data
                             LogBallPositionAsXML(logEntry);
                         }
 
-                    }
 
                     loggerQueue.Clear();
-                    hasNewItems.Reset();
 
                 }
 

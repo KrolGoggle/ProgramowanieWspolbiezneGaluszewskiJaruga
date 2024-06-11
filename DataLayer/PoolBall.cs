@@ -84,7 +84,6 @@ namespace DataLayer
             thread = new Thread(() =>
             {
                 int waiting = 0;
-                sw.Restart();
                 sw.Start();
                 long lastElapsed = sw.ElapsedMilliseconds;
 
