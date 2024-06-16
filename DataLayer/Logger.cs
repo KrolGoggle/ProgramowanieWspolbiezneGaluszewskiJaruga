@@ -12,7 +12,7 @@ namespace Data
         private AutoResetEvent hasNewItems = new AutoResetEvent(false);
         private XmlWriter writerXml;
         private Thread logger;
-        private readonly int size = 100;
+        private readonly int size = 1000;
 
         private Logger()
         {
@@ -58,7 +58,7 @@ namespace Data
                 if (loggerQueue.Count >= size)
                 {
                     throw new InvalidOperationException("bufor jest zapelniony.");
-                    return;
+                    
                 }
 
                 loggerQueue.Enqueue(new LogEntry(id, position, time));
@@ -74,10 +74,8 @@ namespace Data
                 hasNewItems.WaitOne();
 
 
-                if (loggerQueue.Count > 0)
+                while (loggerQueue.Count > 0)
                 {
-
-
 
                         LogEntry logEntry = loggerQueue.Dequeue();
                         if (logEntry != null)
@@ -85,11 +83,7 @@ namespace Data
                             LogBallPositionAsXML(logEntry);
                         }
 
-
-                    loggerQueue.Clear();
-
                 }
-
 
 
             }
